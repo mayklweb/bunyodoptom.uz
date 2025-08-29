@@ -80,7 +80,7 @@ function Home() {
     <>
       {/* Hero Banner */}
       <section>
-        <div className="container max-w-[1260px] w-full mx-auto">
+        <div className="container">
           <div className="">
             <Swiper
               slidesPerView={1}
@@ -93,7 +93,7 @@ function Home() {
                 swiper.params.navigation.prevEl = prevRef.current;
                 swiper.params.navigation.nextEl = nextRef.current;
               }}
-              className="w-full h-[50vh] mt-10 relative rounded-xl overflow-hidden"
+              className="w-full h-[50vh] mt-5 lg:mt-10 relative rounded-xl overflow-hidden"
             >
               {products.data?.map((banner, index) => (
                 <SwiperSlide key={index} className="pb-10">
@@ -125,7 +125,7 @@ function Home() {
       {/* Categories Section */}
       <section className="">
         <div className="">
-          <div className="mt-10">
+          <div className="mt-5 lg:mt-10">
             <div className="container">
               <div className="flex items-center justify-between">
                 <h2 className=" font-semibold text-[#102440] text-2xl lg:text-4xl ">
@@ -197,16 +197,16 @@ function Home() {
                 key={index}
                 className="w-full h-full rounded-[20px]"
               >
-                <div className="relative w-full h-[70%] rounded-[20px] overflow-hidden">
-                  <button className="absolute top-[15px] right-[15px] bg-white rounded-full p-2.5">
+                <div className="relative w-full h-[60%] rounded-[20px] overflow-hidden">
+                  {/* <button className="absolute top-[15px] right-[15px] bg-white rounded-full p-2.5">
                     <HeartIcon />
-                  </button>
-                  <img src={product.image} alt="" />
+                  </button> */}
+                  <img className="w-full h-full object-cover" src={'/product.jfif'} alt="" />
                 </div>
-                <h3 className="mt-[5px] font-semibold text-[#283645] text-xl leading-[27.3px] [font-family:'Source_Sans_Pro',Helvetica]">
+                <h3 className="mt-[5px] font-semibold text-[#283645] text-xl">
                   {product.name}
                 </h3>
-                <p className="text-[#61778d] text-base leading-6 [font-family:'Source_Sans_Pro',Helvetica] font-semibold">
+                <p className="text-[#61778d] text-sm font-semibold">
                   {product.price}
                 </p>
               </div>
@@ -216,10 +216,10 @@ function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="">
+      <section className="mt-10">
         <div className="container">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="font-medium text-[#102440] text-[32px] mb-8">
+          <div className="flex items-center justify-between lg:mb-8">
+            <h2 className="font-medium text-[#102440] text-2xl lg:text-4xl mb-4">
               Hamkorlarimiz
             </h2>
             <div className="hidden lg:flex gap-2.5">
@@ -239,6 +239,7 @@ function Home() {
           </div>
           <Swiper
             slidesPerView={3}
+            spaceBetween={30}
             modules={[Navigation]}
             navigation={{
               prevEl: prevRef.current,
@@ -256,11 +257,11 @@ function Home() {
                 <SwiperSlide>
                   <div
                     key={index}
-                    className="w-[193px] h-[193px] flex-shrink-0 rounded-[10px] border-[#e2e2e2] bg-[#ffffff33]"
+                    className="w-[90px] h-[90px] lg:w-[193px] lg:h-[193px] flex-shrink-0 rounded-[10px] border-[#e2e2e2] bg-[#ffffff33]"
                   >
-                    <div className="flex items-center justify-center h-full p-4">
+                    <div className="flex items-center justify-center h-full">
                       <img
-                        className="max-w-full max-h-full object-contain"
+                        className="max-w-full max-h-full object-cover"
                         alt={`Partner ${index + 1}`}
                         src={partner.image}
                       />
@@ -274,9 +275,9 @@ function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="">
+      <section className="mt-10 mb-20">
         <div className="container">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-[#102440] text-xl leading-[43.8px]">
               Mijozlarimiz fikrlar
             </h2>

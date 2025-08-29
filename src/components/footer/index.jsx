@@ -134,7 +134,7 @@ function Footer() {
       </footer>
       <footer className="w-full mt-[40px] bg-white lg:hidden shadow-[0px_0px_20px_#00000020] fixed bottom-0 left-0 z-50">
         <div className="container">
-          <div className="py-4 flex justify-between ">
+          <div className="py-5 flex justify-between ">
             <button>
               <Link to={"/"}>
                 <Home />
