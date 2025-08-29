@@ -146,7 +146,7 @@ function Footer() {
               </Link>
             </button>
             <button>
-              <Link to={"/"}>
+              <Link to={"/cart"}>
                 <ShoppingBasket size={32} />
               </Link>
             </button>
