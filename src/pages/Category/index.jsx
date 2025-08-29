@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { getCategories, getProducts } from "../../api/apiServices";
 import { Link } from "react-router-dom";
+import { modalStore } from "../../store/ModalStore";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -18,7 +19,6 @@ function Products() {
     fetchProducts();
   }, []);
 
-  console.log(categories);
 
   return (
     <div className="container max-w-[1260px] w-full mx-auto">
@@ -81,7 +81,12 @@ function Products() {
 
           <div className="w-full flex justify-between items-center mt-5">
             <h3 className="text-2xl">Mahsulotlar</h3>
-            <button className="text-lg px-6 py-2 rounded-lg border-[1px] border-solid border-[#2E3192]">Filter</button>
+            <button
+              onClick={() => modalStore.open("filter")}
+              className="text-lg px-6 py-1.5 text-[#2E3192] rounded-lg border-[1px] border-solid border-[#2E3192]"
+            >
+              Filter
+            </button>
           </div>
 
           {/* Product Grid */}
