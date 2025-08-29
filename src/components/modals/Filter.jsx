@@ -1,5 +1,6 @@
 import React from "react";
 import { modalStore } from "../../store/ModalStore";
+import { X } from "lucide-react";
 
 function Filter() {
   const filter = modalStore.activeModal === "filter";

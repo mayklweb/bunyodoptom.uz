@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import Footer from "./components/footer";
 import { modalStore } from "./store/ModalStore";
 import { observer } from "mobx-react-lite";
-import { LogIn, MenuModal, ProductModal, SignUp } from "./components/modals";
+import { Filter, LogIn, MenuModal, ProductModal, SignUp } from "./components/modals";
 
 const App = observer(() => {
   return (
