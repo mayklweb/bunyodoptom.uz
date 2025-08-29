@@ -7,9 +7,12 @@ import {
   User,
 } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Footer() {
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
   return (
     <>
       <footer className="w-full mt-[40px] bg-[#0d0d2c] hidden lg:block ">
@@ -134,27 +137,37 @@ function Footer() {
       </footer>
       <footer className="w-full mt-[40px] bg-white lg:hidden shadow-[0px_0px_20px_#00000020] fixed bottom-0 left-0 z-50">
         <div className="container">
-          <div className="py-5 flex justify-between ">
-            <button className="p-2">
-              <Link to={"/"}>
-                <Home size={32} />
-              </Link>
-            </button>
-            <button>
-              <Link to={"/products"}>
-                <LayoutGrid size={32} />
-              </Link>
-            </button>
-            <button>
-              <Link to={"/cart"}>
-                <ShoppingBasket size={32} />
-              </Link>
-            </button>
-            <button>
-              <Link to={"/profile"}>
-                <User size={32} />
-              </Link>
-            </button>
+          <div className="py-5 flex justify-between">
+            <Link to="/">
+              <Home
+                size={32}
+                className={isActive("/") ? "text-[#2E3192]" : "text-gray-600"}
+              />
+            </Link>
+            <Link to="/products">
+              <LayoutGrid
+                size={32}
+                className={
+                  isActive("/products") ? "text-[#2E3192]" : "text-gray-600"
+                }
+              />
+            </Link>
+            <Link to="/cart">
+              <ShoppingBasket
+                size={32}
+                className={
+                  isActive("/cart") ? "text-[#2E3192]" : "text-gray-600"
+                }
+              />
+            </Link>
+            <Link to="/profile">
+              <User
+                size={32}
+                className={
+                  isActive("/profile") ? "text-[#2E3192]" : "text-gray-600"
+                }
+              />
+            </Link>
           </div>
         </div>
       </footer>
