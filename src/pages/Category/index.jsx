@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { HeartIcon } from "lucide-react";
 import { getCategories, getProducts } from "../../api/apiServices";
+import { Link } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -25,25 +25,25 @@ function Products() {
       {/* Main  */}
       <main className="">
         {/* div */}
-        <div className="h-[51px]">
-          <div className="relative w-[184px] h-[23px] top-3.5 left-[10px] flex gap-4 items-center">
+        <div className="">
+          <div className="w-full flex gap-2 items-center text-sm">
             <div>
-              <div href="#" className="font-normal text-[#33a0ff] text-lg">
+              <Link to="/" className="font-normal text-[#33a0ff] text-lg">
                 Asosiy
-              </div>
+              </Link>
             </div>
             <div className="font-normal text-[#c1c8ce] text-sm">/</div>
             <div>
-              <div href="#" className="font-normal text-neutral-800 text-lg">
+              <p className="font-normal text-neutral-800 text-lg">
                 Mahsulotlar
-              </div>
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex ">
+        <div className="flex flex-col gap-6 mb-10">
           {/* Sidebar */}
-          <aside className="w-[300px] h-full">
+          <aside className="w-[300px] h-full hidden lg:block">
             {/* Categories */}
             <div className="sticky top-10 left-10 bg-[#e5e5ff] rounded-[10px]">
               <div className="p-5">
@@ -82,35 +82,56 @@ function Products() {
           </aside>
 
           {/* Product Grid */}
-          <div className="flex-1 grid grid-cols-3 gap-6 pl-5 ">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {products.data?.map((product, index) => (
-              <div key={`product-${index}`} className="w-full h-full">
-                <div className="relative w-full h-[80%] bg-cover bg-center rounded-[10px] overflow-hidden">
-                  <button className="absolute top-[12px] right-[12px] bg-white rounded-full p-2.5">
+              <div key={index}>
+                <div
+                  key={`product-${index}`}
+                  className="w-full h-full rounded-xl"
+                >
+                  <div className="relative w-full h-[60%] bg-cover bg-center rounded-[10px] overflow-hidden">
+                    {/* <button className="absolute top-[12px] right-[12px] bg-white rounded-full p-2.5">
                     <HeartIcon size={20} />
-                  </button>
-                  <div className="w-full h-full object-cover">
-                    <img
-                      src={product.image}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
+                  </button> */}
+                    <div className="w-full h-full">
+                      <img
+                        src={"/product.jfif"}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full p-2">
+                    <h3
+                      className={`font-semibold text-[#0d0d2d] text-lg lg:text-2xl mt-1`}
+                    >
+                      {product.name}
+                    </h3>
+                    <p className={"font-semibold text-base text-[#61778d]"}>
+                      {product.price}
+                    </p>
                   </div>
                 </div>
-                <h3
-                  className={`w-[252px] font-semibold ${
-                    index === 0 ? "text-app-primary" : "text-[#283645]"
-                  } text-xl mt-1`}
+                {/* <div
+                  onClick={() => openProductModal(product)}
+                  key={index}
+                  className="w-full h-full rounded-[20px]"
                 >
-                  {product.name}
-                </h3>
-                <p
-                  className={`w-[252px] h-6 font-semibold text-base ${
-                    index === 0 ? "text-[#0d0d2d]" : "text-[#61778d]"
-                  }`}
-                >
-                  {product.price}
-                </p>
+                  <div className="relative w-full h-[60%] rounded-[20px] overflow-hidden">
+                    
+                    <img
+                      className="w-full h-full object-cover"
+                      src={"/product.jfif"}
+                      alt=""
+                    />
+                  </div>
+                  <h3 className="mt-[5px] font-semibold text-[#283645] text-xl">
+                    {product.name}
+                  </h3>
+                  <p className="text-[#61778d] text-sm font-semibold">
+                    {product.price}
+                  </p>
+                </div> */}
               </div>
             ))}
           </div>

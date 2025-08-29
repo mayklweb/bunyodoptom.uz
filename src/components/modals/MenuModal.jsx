@@ -1,43 +1,40 @@
 import { X } from "lucide-react";
+import { observer } from "mobx-react-lite";
 import { modalStore } from "../../store/ModalStore";
 
 function MenuModal() {
+  const active = modalStore.activeModal === "menu";
+
   return (
-    <div className="w-screen h-screen fixed top-0 left-0 z-[100] transition-all ease-in-out duration-200">
+    <div
+      className={`fixed top-0 left-0 z-50 w-screen h-screen transition-all duration-300 ${
+        active ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+    >
       {/* Overlay */}
-      <div className="w-full h-full bg-black/50 absolute top-0 left-0"></div>
+      <div className="w-full h-full bg-black/50"></div>
 
-      {/* Panenpm l */}
-      <div className="absolute top-0 right-0 h-full w-[400px] bg-white shadow-lg rounded-l-xl p-6 transform transition-transform duration-300 ease-in-out translate-x-0">
-        <div className="w-full flex justify-end">
-          <button
-            onClick={() => modalStore.close("menu")}
-            className="cursor-pointer"
-          >
-            <X />
-          </button>
-        </div>
+      {/* Sidebar */}
+      <div
+        className={`w-[300px] h-full bg-white absolute top-0 right-0 transition-transform duration-300 ${
+          active ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <button
+          onClick={() => modalStore.close("menu")}
+          className="absolute top-4 right-4"
+        >
+          <X />
+        </button>
 
-        <div className="flex flex-col gap-4">
-          <div className="w-full">
-            <img className="w-full h-48 object-cover rounded-lg" src="/product.jfif" />
-          </div>
-          <div className="flex flex-col gap-4">
-            <h3 className="text-lg font-semibold">Snickers mini</h3>
-            <p className="text-gray-600 text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Adipiscing quisque laoreet tempus amet, convallis. Tincidunt
-              facilisis mollis arcu volutpat, feugiat ultrices.
-            </p>
-
-            <button className="w-full mt-4 py-3 text-white bg-[#2E3192] rounded-[10px]">
-              Savatga
-            </button>
-          </div>
+        <div className="p-4 mt-10">
+          <h3 className="text-2xl font-semibold">Asosiy</h3>
+          <h3 className="text-2xl font-normal">Biz haqimizda</h3>
+          <h3 className="text-2xl font-normal">Mahsulotlar</h3>
         </div>
       </div>
     </div>
   );
 }
 
-export default MenuModal;
+export default observer(MenuModal);

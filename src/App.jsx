@@ -30,15 +30,14 @@ const App = observer(() => {
         <ArrowUpIcon className="w-6 h-6  text-white" />
       </button>
 
+      <MenuModal />
+
       {/* ✅ Render Modals */}
       {modalStore.activeModal === "signUp" &&
         createPortal(<SignUp />, document.querySelector("#root"))}
 
       {modalStore.activeModal === "login" &&
         createPortal(<LogIn />, document.querySelector("#root"))}
-
-      {modalStore.activeModal === "menu" &&
-        createPortal(<MenuModal />, document.querySelector("#root"))}
 
       {modalStore.activeModal === "product" &&
         createPortal(<ProductModal />, document.querySelector("#root"))}

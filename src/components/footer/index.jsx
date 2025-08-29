@@ -141,7 +141,7 @@ function Footer() {
               </Link>
             </button>
             <button>
-              <Link to={"/"}>
+              <Link to={"/products"}>
                 <LayoutGrid />
               </Link>
             </button>
@@ -151,7 +151,7 @@ function Footer() {
               </Link>
             </button>
             <button>
-              <Link to={"/"}>
+              <Link to={"/profile"}>
                 <User />
               </Link>
             </button>
