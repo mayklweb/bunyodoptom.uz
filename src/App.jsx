@@ -31,6 +31,7 @@ const App = observer(() => {
       </button>
 
       <MenuModal />
+      <Filter />
 
       {/* ✅ Render Modals */}
       {modalStore.activeModal === "signUp" &&

@@ -42,9 +42,7 @@ function Products() {
         </div>
 
         <div className="flex flex-col gap-6 mb-10">
-          {/* Sidebar */}
           <aside className="w-[300px] h-full hidden lg:block">
-            {/* Categories */}
             <div className="sticky top-10 left-10 bg-[#e5e5ff] rounded-[10px]">
               <div className="p-5">
                 <h2 className="font-semibold text-app-primary text-xl mb-6">
@@ -80,6 +78,11 @@ function Products() {
               </div>
             </div>
           </aside>
+
+          <div className="w-full flex justify-between items-center mt-5">
+            <h3 className="text-2xl">Mahsulotlar</h3>
+            <button className="text-lg px-6 py-2 rounded-lg border-[1px] border-solid border-[#2E3192]">Filter</button>
+          </div>
 
           {/* Product Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">

@@ -32,7 +32,7 @@ const Header = observer(() => {
         <div className="flex items-center justify-between h-full py-4">
           <div className="flex items-center gap-10">
             <div>
-              <img className="w-[120px] lg:w-[240px] lg:h-[60px]" alt="Logo" src="/logo.svg" />
+              <img className="w-[160px] lg:w-[240px] lg:h-[60px]" alt="Logo" src="/logo.svg" />
             </div>
             <div>
               <ul className="hidden lg:flex items-center gap-8">
