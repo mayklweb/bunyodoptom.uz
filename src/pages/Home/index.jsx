@@ -6,7 +6,6 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { modalStore } from "../../store/ModalStore";
 import { getCategories, getProducts } from "../../api/apiServices";
-import { set } from "mobx";
 import { ProductModal } from "../../components/modals";
 import { createPortal } from "react-dom";
 
@@ -27,6 +26,8 @@ function Home() {
   }, []);
 
   const openProductModal = (item) => {
+    console.log(item);
+    
     modalStore.open("product");
     setProduct(item);
   };
@@ -168,11 +169,11 @@ function Home() {
               {categories.data?.map((category, index) => (
                 <SwiperSlide key={index} className="pb-10">
                   <div className="w-[100px] h-[120px] lg:w-[195px] lg:h-[210px] p-2 rounded-md lg:rounded-xl border-[#f1f1f1] shadow-[0px_2px_14px_#00000017]">
-                    <div className="w-full h-4/5 bg-black overflow-hidden p-3">
+                    <div className="w-full h-4/5 overflow-hidden">
                       <img
                         className="w-full h-full object-cover rounded-[8px] "
                         alt={category.name}
-                        src={category.image}
+                        src={category.icon}
                       />
                     </div>
                     <p className=" [font-family:'Poppins',Helvetica] text-black text-base text-center leading-[25px]">

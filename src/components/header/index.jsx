@@ -23,8 +23,6 @@ const Header = observer(() => {
     },
   ];
 
-  console.log(authStore.user);
-  
 
   return (
     <header className="fixed w-full top-0 left-0 z-50 bg-white shadow-lg">

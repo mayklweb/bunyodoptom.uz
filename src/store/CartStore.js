@@ -6,9 +6,7 @@ class CartStore {
   constructor() {
     makeAutoObservable(this);
     const saved = localStorage.getItem("cart");
-    if (saved) {
-      this.cart = JSON.parse(saved);
-    }
+    this.cart = saved ? JSON.parse(saved) : [];
   }
 
   saveCart() {
@@ -35,12 +33,11 @@ class CartStore {
   }
 
   inc(id) {
-    this.cart = this.cart.map((item) =>
-      item.id === id && item.count < item.stock_qty
-        ? { ...item, count: item.count + 1 }
-        : item
-    );
-    this.saveCart();
+    const item = this.cart.find((p) => p.id === id);
+    if (item && item.count < item.stock_qty) {
+      item.count += 1;
+      this.saveCart();
+    }
   }
 
   dec(id) {

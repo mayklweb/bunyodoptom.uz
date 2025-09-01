@@ -1,29 +1,24 @@
 import React, { useState } from "react";
 import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cartStore } from "../../store/CartStore";
 
 function Cart() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
 
-  // Dummy data (odatda bu backend yoki store dan keladi)
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: "Iphone 15 Pro Max",
-      price: 5000000,
-      quantity: 1,
-      selected: false,
-    },
-    {
-      id: 2,
-      name: "Samsung Galaxy S24",
-      price: 4000000,
-      quantity: 2,
-      selected: false,
-    },
-  ]);
+  console.log(user);
 
-  const [selectAll, setSelectAll] = useState(false);
+  const [cart, setCart] = useState(
+    cartStore.cart.map((item) => ({
+      ...item,
+      selected: true, // qo‘shimcha maydon
+    }))
+  );
+
+  const [selectAll, setSelectAll] = useState(true);
 
   // --- Select All toggle ---
   const handleSelectAll = () => {
@@ -41,29 +36,9 @@ function Cart() {
     );
   };
 
-  // --- Increase Quantity ---
-  const handleIncrease = (id) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  // --- Decrease Quantity ---
-  const handleDecrease = (id) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
   // --- Delete Item ---
   const handleDelete = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    cartStore.remove(id);
   };
 
   // --- Delete Selected Items ---
@@ -75,7 +50,9 @@ function Cart() {
   // --- Calculation (selected items) ---
   const totalPrice = cart
     .filter((item) => item.selected)
-    .reduce((sum, item) => sum + item.price * item.quantity, 0);
+    .reduce((sum, item) => sum + item.price * item.count, 0);
+
+  console.log(cart);
 
   return (
     <div className="bg-white flex flex-row justify-center w-full mt-6 pb-24">
@@ -99,12 +76,6 @@ function Cart() {
                   Barcha mavjud mahsulotlarni tanlash
                 </span>
               </div>
-              <button
-                onClick={handleDeleteSelected}
-                className="text-red-600 font-semibold text-sm lg:text-base"
-              >
-                Tanlanganlarni o‘chirish
-              </button>
             </div>
 
             {/* Product Items */}
@@ -127,9 +98,10 @@ function Cart() {
                     {/* Image (demo) */}
                     <div className="rounded-[8px] bg-white w-full sm:w-[140px] h-[160px] sm:h-[120px] flex items-center justify-center overflow-hidden">
                       <img
-                        src="/product.jfif"
+                        src={`http://localhost:4000${item.images[0].url}`}
+                        crossOrigin="anonymous"
                         alt="product"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                       />
                     </div>
 
@@ -144,8 +116,7 @@ function Cart() {
                           Narxi: {item.price.toLocaleString()} UZS
                         </p>
                         <p className="text-sm lg:text-lg">
-                          Jami:{" "}
-                          {(item.price * item.quantity).toLocaleString()} UZS
+                          Jami: {(item.price * item.count).toLocaleString()} UZS
                         </p>
                       </div>
 
@@ -155,14 +126,14 @@ function Cart() {
                           <button onClick={() => handleDecrease(item.id)}>
                             <MinusIcon className="w-4 h-4" />
                           </button>
-                          <p>{item.quantity}</p>
-                          <button onClick={() => handleIncrease(item.id)}>
+                          <p>{item.count}</p>
+                          <button onClick={() => cartStore.inc(item.id)}>
                             <PlusIcon className="w-4 h-4" />
                           </button>
                         </div>
                         <button
-                          onClick={() => handleDelete(item.id)}
-                          className="border p-2 rounded-[8px] flex items-center"
+                          onClick={() => cartStore.remove(item.id)}
+                          className="border p-3 rounded-[8px] flex items-center"
                         >
                           <Trash2Icon className="w-4 h-4" />
                         </button>
@@ -173,9 +144,7 @@ function Cart() {
               ))}
 
               {cart.length === 0 && (
-                <p className="text-center text-gray-500">
-                  Savat bo‘sh 🙁
-                </p>
+                <p className="text-center text-gray-500">Savat bo‘sh 🙁</p>
               )}
             </div>
           </main>
@@ -185,11 +154,11 @@ function Cart() {
             <div className="w-full p-4 lg:p-5 bg-[#e5e6ff] rounded-[10px]">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-lg lg:text-2xl font-semibold">Telefon:</h3>
-                <p className="text-base lg:text-xl">+998335136053</p>
+                <p className="text-base lg:text-xl">{user.phone}</p>
               </div>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-lg lg:text-2xl font-semibold">F.I.O:</h3>
-                <p className="text-base lg:text-xl">Farrux Bozorboyev</p>
+                <p className="text-base lg:text-xl">{user.name}</p>
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3">
