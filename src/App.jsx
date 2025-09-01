@@ -33,15 +33,13 @@ const App = observer(() => {
       <MenuModal />
       <Filter />
 
-      {/* ✅ Render Modals */}
       {modalStore.activeModal === "signUp" &&
         createPortal(<SignUp />, document.querySelector("#root"))}
 
       {modalStore.activeModal === "login" &&
         createPortal(<LogIn />, document.querySelector("#root"))}
 
-      {modalStore.activeModal === "product" &&
-        createPortal(<ProductModal />, document.querySelector("#root"))}
+
     </div>
   );
 });

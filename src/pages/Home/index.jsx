@@ -6,9 +6,13 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { modalStore } from "../../store/ModalStore";
 import { getCategories, getProducts } from "../../api/apiServices";
+import { set } from "mobx";
+import { ProductModal } from "../../components/modals";
+import { createPortal } from "react-dom";
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -22,23 +26,22 @@ function Home() {
     fetchProducts();
   }, []);
 
-  console.log(products);
+  const openProductModal = (item) => {
+    modalStore.open("product");
+    setProduct(item);
+  };
+
+  useEffect(() => {
+    setProduct(product);
+  }, [product]);
+
+  const setOpenModal = (item) => {
+    modalStore.open("product");
+    setProduct(item);
+  };
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-
-  const openProductModal = (item) => {
-    setModalProduct(item);
-    modalStore.open("product");
-  };
-
-  // Product data
-  // const products = Array(24).fill({
-  //   name: "Snickers mini",
-  //   price: "155 369 UZS",
-  //   image:
-  //     "https://media.istockphoto.com/id/509009097/photo/delicious-homemade-cherry-pie.jpg?s=612x612&w=0&k=20&c=L9uB0hcTHuZ-fI5GXldYzLgpk_IumkC_Qzi4zOU4BvQ=",
-  // });
 
   // Testimonial data
   const testimonials = Array(4).fill({
@@ -201,7 +204,12 @@ function Home() {
                   {/* <button className="absolute top-[15px] right-[15px] bg-white rounded-full p-2.5">
                     <HeartIcon />
                   </button> */}
-                  <img className="w-full h-full object-cover" src={'/product.jfif'} alt="" />
+                  <img
+                    className="w-full h-full object-cover"
+                    src={`http://localhost:4000${product.images[0].url}`}
+                    alt="product"
+                    crossOrigin="anonymous"
+                  />
                 </div>
                 <h3 className="mt-[5px] font-semibold text-[#283645] text-xl">
                   {product.name}
@@ -342,6 +350,9 @@ function Home() {
           </Swiper>
         </div>
       </section>
+
+      {modalStore.activeModal === "product" &&
+        createPortal(<ProductModal product={product} />, document.querySelector("#root"))}
     </>
   );
 }

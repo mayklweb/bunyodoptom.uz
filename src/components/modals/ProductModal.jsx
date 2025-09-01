@@ -1,14 +1,28 @@
 import { X } from "lucide-react";
-import { modalStore } from "../../store/ModalStore"; // yo‘lni tekshir
+import { modalStore } from "../../store/ModalStore";
+import Counter from "../Counter";
+import { cartStore } from "../../store/CartStore";
+import { observer } from "mobx-react-lite";
 
-function ProductModal() {
+function ProductModal({ product }) {
+  console.log(product);
+
   return (
-    <div className="w-screen h-screen fixed top-0 left-0 z-[100] transition-all ease-in-out duration-200">
+    <div
+      className={`w-screen h-screen fixed top-0 left-0 z-[100] transition-all duration-300 ${
+        modalStore.activeModal === "product"
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+      }`}
+    >
       <div className="w-full h-full relative flex items-center justify-center">
-        <div className="w-full h-full bg-black/50 absolute top-0 left-0"></div>
+        <div
+          onClick={() => modalStore.close("product")}
+          className="w-full h-full bg-black/50 absolute top-0 left-0"
+        ></div>
 
         <div className="w-2/4 rounded-xl p-10 bg-white relative z-10">
-          <div className="w-full flex justify-end absolute top-6 right-6 ">
+          <div className="w-full flex justify-end absolute top-6 right-6">
             <button
               onClick={() => modalStore.close("product")}
               className="cursor-pointer"
@@ -18,20 +32,35 @@ function ProductModal() {
           </div>
 
           <div className="w-full flex gap-4 items-center">
-            <div className="w-1/2">
-              <img className="w-full h-full object-cover" src="/product.jfif" />
+            <div className="w-1/2 h-full">
+              <img
+                className="w-full h-full object-cover rounded-lg"
+                src={`http://localhost:4000${product.images[0].url}`}
+                alt={product.name}
+                crossOrigin="anonymous"
+              />
             </div>
             <div className="w-1/2 flex flex-col gap-4">
-              <h3>Snickers mini</h3>
+              <h3 className="text-2xl font-semibold">{product.name}</h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Adipiscing quisque laoreet tempus amet, convallis. Tincidunt
-                facilisis mollis arcu volutpat, feugiat ultrices.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Deserunt, commodi!
               </p>
 
-              <button className="w-full mt-4 py-3 text-white bg-[#2E3192] rounded-[10px]">
-                Savatga
-              </button>
+              <p className="font-semibold">KATEGORYA: {product.category_id}</p>
+              <p className="text-lg font-semibold">
+                NARXI: {product.price} so'm
+              </p>
+
+              <div className="flex gap-4 items-center">
+                <Counter product={product} />
+                <button
+                  onClick={() => cartStore.addToCart(product)}
+                  className="w-full py-3 text-white bg-[#2E3192] rounded-[10px]"
+                >
+                  Savatga
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -40,4 +69,4 @@ function ProductModal() {
   );
 }
 
-export default ProductModal;
+export default observer(ProductModal);
