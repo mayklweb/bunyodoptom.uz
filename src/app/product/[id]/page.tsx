@@ -4,7 +4,7 @@ import Image from "next/image";
 
 interface ProductPageProps {
   params: {
-    id: number;
+    id: string;
   };
 }
 
