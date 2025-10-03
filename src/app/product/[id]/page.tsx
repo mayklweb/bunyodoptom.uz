@@ -1,11 +1,15 @@
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 
+
 interface ProductPageProps {
-  params: { id: string };
+  params: {
+    id: number;
+  };
 }
 
-function Product({ params }: ProductPageProps) {
+
+function Product({ params }: ProductPageProps){
   const { id } = params;
   console.log(id);
 
