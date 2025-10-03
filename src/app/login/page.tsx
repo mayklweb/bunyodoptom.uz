@@ -1,8 +1,7 @@
 "use client"
 import { useState } from 'react'
 import { authStore } from "@/store/AuthStore";
-import { modalStore } from '@/store/ModalStore';
-import { ArrowLeft, ArrowLeftCircle, User, X } from 'lucide-react';
+import { ArrowLeft} from 'lucide-react';
 import { PatternFormat } from 'react-number-format';
 import { LogInType } from '@/types';
 import Link from 'next/link';
