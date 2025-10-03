@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Providers from "@/Providers/providers";
 import { Footer, Header } from "./components";
+import Head from "next/head";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -17,36 +18,6 @@ export const metadata: Metadata = {
     icon: "/logo1.svg",
   },
   manifest: "/manifest.json",
-  metadataBase: new URL("https://bunyodoptom.uz"),
-  openGraph: {
-    title: "Bunyod Optom distribyutorlik firmasi",
-    description:
-      "Bunyod Optom - Eng yaxshi narxlar, keng assortiment, tez yetkazib berish",
-    url: "https://bunyodoptom.uz",
-    siteName: "Bunyod Optom",
-    images: [
-      {
-        url: "/logo1.svg",
-        width: 800,
-        height: 600,
-      },
-      {
-        url: "/logo1.svg",
-        width: 1800,
-        height: 1600,
-        alt: "My custom alt",
-      },
-    ],
-    locale: "uz_UZ",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Bunyod Optom distribyutorlik firmasi",
-    description:
-      "Bunyod Optom - Eng yaxshi narxlar, keng assortiment, tez yetkazib berish",
-    images: ["/logo1.svg"],
-  },
 };
 export default function RootLayout({
   children,
@@ -55,6 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="My Next App" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+      </Head>
       <body className={`${montserrat.variable}  antialiased`}>
         <Providers>
           <div className="min-h-[100dvh] flex flex-col">
