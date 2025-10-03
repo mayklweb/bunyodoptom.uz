@@ -13,6 +13,9 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Bunyod Optom | Дистрибьюторская фирма",
   description: "Bunyod Optom - Eng yaxshi narxlar, keng assortiment, tez yetkazib berish",
+  icons: {
+    icon: "/logo1.svg",
+  },
 };
 export default function RootLayout({
   children,
