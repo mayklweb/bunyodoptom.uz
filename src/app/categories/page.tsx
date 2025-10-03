@@ -59,7 +59,7 @@ function Categories() {
           </div>
           <div className="w-full h-16">
             <button className="mb-24 w-full h-full text-white text-xl cursor-pointer bg-[#2e3192] rounded-2xl">
-              KO'PROQ KO'RISH
+              KOPROQ KORISH
             </button>
           </div>
         </div>
