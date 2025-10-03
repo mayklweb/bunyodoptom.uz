@@ -3,7 +3,6 @@ import Image from "next/image";
 
 function Cart() {
 
-  const cart: any[] = []
 
   return (
     <section>
