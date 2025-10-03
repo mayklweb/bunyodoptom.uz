@@ -3,15 +3,16 @@ import Image from "next/image";
 
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
+export default async function Product({ params }: ProductPageProps){
+  const { id } = await params; // 🔑 params ni kutib olish kerak
 
-export default function Product({ params }: ProductPageProps){
-  const { id } = params;
-
+  console.log(id);
+  
   return (
     <section>
       <div className="container">
