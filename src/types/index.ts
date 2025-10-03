@@ -21,13 +21,17 @@ export interface SignUpType {
   brightday?: string;
 }
 
+export interface ProductImage {
+  url: string;
+}
+
 export interface ProductType {
   id: number;
   name: string;
   description: string;
   price: number;
   stock_qty: number;
-  image: string;
+  images: ProductImage[];
   category: string;
   qty?: number; // Qo'shimcha maydon, agar kerak bo'lsa
 }
