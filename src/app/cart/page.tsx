@@ -1,4 +1,4 @@
-import { Minus, MinusIcon, Plus, PlusIcon, Trash, Trash2Icon } from "lucide-react";
+import { Minus,Plus, Trash } from "lucide-react";
 import Image from "next/image";
 
 function Cart() {
