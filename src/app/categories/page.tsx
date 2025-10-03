@@ -9,15 +9,15 @@ import { useEffect, useState } from "react";
 
 function Categories() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [products, setProducts] = useState<ProductType[]>([]);
-  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [products, setProducts] = useState<Array<ProductType>>([]);
+  const [categories, setCategories] = useState<Array<CategoryType>>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       const productList = await getProducts();
       const categoryList = await getCategories();
       setProducts(productList.data);
-      setCategories(categoryList.data);
+      setCategories(categoryList);
     };
 
     fetchProducts();
