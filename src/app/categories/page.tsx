@@ -17,7 +17,7 @@ function Categories() {
       const productList = await getProducts();
       const categoryList = await getCategories();
       setProducts(productList.data);
-      setCategories(categoryList);
+      setCategories(categoryList.data);
     };
 
     fetchProducts();
@@ -85,7 +85,7 @@ function Categories() {
               </button>
             </div>
             <div>
-              {categories.data?.map((category) => (
+              {categories.map((category) => (
                 <div key={category._id} className="mt-4">
                   <h2 className="text-lg font-medium">{category.name}</h2>
                 </div>
