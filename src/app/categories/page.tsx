@@ -14,8 +14,8 @@ function Categories() {
     const fetchProducts = async () => {
       const productList = await getProducts();
       const categoryList = await getCategories();
-      setProducts(productList);
-      setCategories(categoryList);
+      setProducts(productList.data);
+      setCategories(categoryList.data);
     };
 
     fetchProducts();
@@ -35,7 +35,7 @@ function Categories() {
             </button>
           </div>
           <div className="mt-6 mb-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {products?.data?.map((product) => (
+            {products.map((product) => (
               <Link key={product._id} href={`/product/${product.id}`}>
                 <div className="flex flex-col gap-2 rounded-xl cursor-pointer">
                   <div className="w-full h-full rounded-xl overflow-hidden">
