@@ -16,11 +16,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo1.svg",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+  manifest: "/manifest.json",
   metadataBase: new URL("https://bunyodoptom.uz"),
   openGraph: {
     title: "Bunyod Optom distribyutorlik firmasi",
