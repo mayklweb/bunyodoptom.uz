@@ -1,8 +1,6 @@
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 
-import { notFound } from "next/navigation";
-
 interface ProductPageProps {
   params: { id: string };
 }
