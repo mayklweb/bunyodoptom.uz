@@ -1,5 +1,7 @@
 "use client";
 import { getCategories, getProducts } from "@/api/apiServices";
+import { CategoryType } from "@/types";
+import { ProductType } from "@/types";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,8 +9,8 @@ import { useEffect, useState } from "react";
 
 function Categories() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
