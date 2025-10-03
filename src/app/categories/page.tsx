@@ -21,8 +21,6 @@ function Categories() {
     fetchProducts();
   }, []);
 
-  console.log(products.data);
-
   return (
     <section>
       <div className="container">
@@ -83,6 +81,13 @@ function Categories() {
               <button onClick={() => setIsFilterOpen(false)}>
                 <X />
               </button>
+            </div>
+            <div>
+              {categories.data?.map((category) => (
+                <div key={category._id} className="mt-4">
+                  <h2 className="text-lg font-medium">{category.name}</h2>
+                </div>
+              ))}
             </div>
           </div>
         </div>

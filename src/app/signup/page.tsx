@@ -9,7 +9,6 @@ function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [brightday, setBrightday] = useState<string>("");
 
 
   const handelSignUp = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -18,7 +17,6 @@ function SignUp() {
       name,
       password,
       phone,
-      brightday,
     });
     console.log("Signup result:", res);
   };
