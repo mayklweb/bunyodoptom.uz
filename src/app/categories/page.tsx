@@ -85,8 +85,8 @@ function Categories() {
               </button>
             </div>
             <div>
-              {categories.map((category) => (
-                <div key={category._id} className="mt-4">
+              {categories.map((category, key) => (
+                <div key={key} className="mt-4">
                   <h2 className="text-lg font-medium">{category.name}</h2>
                 </div>
               ))}
