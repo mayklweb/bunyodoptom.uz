@@ -8,7 +8,7 @@ class ModalStore {
     makeAutoObservable(this);
   }
 
-  open(name: any) {
+  open(name: string) {
     this.modals[name] = true;
     this.activeModal = name;
   }
