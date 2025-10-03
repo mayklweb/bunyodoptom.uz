@@ -9,9 +9,8 @@ interface ProductPageProps {
 }
 
 
-function Product({ params }: ProductPageProps){
+export default function Product({ params }: ProductPageProps){
   const { id } = params;
-  console.log(id);
 
   return (
     <section>
@@ -148,4 +147,3 @@ function Product({ params }: ProductPageProps){
   );
 }
 
-export default Product;
