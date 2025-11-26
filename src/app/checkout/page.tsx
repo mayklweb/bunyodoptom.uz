@@ -2,7 +2,6 @@
 import { authStore } from "@/store/AuthStore";
 import { cartStore } from "@/store/CartStore";
 import { observer } from "mobx-react-lite";
-import Image from "next/image";
 import React, { useState } from "react";
 
 const Checkout = observer(() => {
