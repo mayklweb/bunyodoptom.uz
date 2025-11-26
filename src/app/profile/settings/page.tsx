@@ -1,13 +1,15 @@
 "use client";
+import { UserType } from "@/types";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 function Settings() {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user") || "{}") || "";
     setUser(userData);
   }, []);
+  console.log(user);
 
   return (
     <section className="mt-[80px]">
@@ -39,7 +41,7 @@ function Settings() {
               </label>
               <div className="border-[1px] border-solid border-[#E4E4E4] rounded-lg mt-2 py-2 px-3">
                 <input
-                  defaultValue={user.name}
+                  defaultValue={user?.name}
                   placeholder="Ism"
                   id="name"
                   type="text"
@@ -54,7 +56,7 @@ function Settings() {
               <div className="border-[1px] border-solid border-[#E4E4E4] rounded-lg mt-2 py-2 px-3">
                 <input
                   placeholder="+998 (90) 123-45-67"
-                  defaultValue={"+998" + user.phone}
+                  defaultValue={"+998" + Number(user?.phone)}
                   id="phone"
                   type="text"
                   className="outline-none"
@@ -68,7 +70,7 @@ function Settings() {
               <div className="border-[1px] border-solid border-[#E4E4E4] rounded-lg mt-2 py-2 px-3">
                 <input
                   placeholder="+998 (90) 123-45-67"
-                  defaultValue={"+998" + user.phone}
+                  defaultValue={"+998" + user?.phone}
                   id="phone"
                   type="password"
                   className="outline-none"
