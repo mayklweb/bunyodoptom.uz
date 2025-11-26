@@ -14,7 +14,7 @@ const Cart = observer(() => {
           <h1 className="text-xl lg:text-4xl font-semibold mb-2">SAVAT</h1>
           <div className="grid grid-cols-1 gap-4">
             {cart.map((item) => (
-              <div className="flex gap-3 border-t border-[#E0E0E0] border-solid py-3">
+              <div key={item.id} className="flex gap-3 border-t border-[#E0E0E0] border-solid py-3">
                 <div className="rounded-2xl overflow-hidden w-[160px] h-[100px]">
                   <Image
                     src="/cookie.webp"

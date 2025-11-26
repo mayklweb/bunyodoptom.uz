@@ -53,7 +53,7 @@ const Checkout = observer(() => {
             <div>
               <div>Ertaga, 27-noyabr</div>
               {cart.map((item) => (
-                <div>
+                <div key={item.id}>
                   <div>{/* <Image src={item.images} /> */}</div>
                   <div>
                     <p>
