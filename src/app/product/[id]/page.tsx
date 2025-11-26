@@ -15,8 +15,6 @@ export default observer(function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const [item, setItem] = useState({} as ProductType);
-  const [data, setData] = useState<any>(null);
-  const { addToCart, inc, dec, cart } = cartStore;
 
   const { id } = use(params);
   const Id = parseInt(id);
@@ -31,7 +29,6 @@ export default observer(function ProductPage({
         const product = productList.find((p: ProductType) => p.id === Id);
 
         setItem(product || null);
-        setData(productList);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
