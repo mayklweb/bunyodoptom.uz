@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/Providers/providers";
 import { Footer, Header } from "./components";
 import Head from "next/head";
+import Script from "next/script";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -19,11 +20,7 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
 };
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
@@ -32,6 +29,26 @@ export default function RootLayout({
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
+        />
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'self'; style-src 'self' 'unsafe-inline'; media-src *"
+        />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-5S5R83M4GN"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5S5R83M4GN');
+  `}
+        </Script>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"
         />
         <meta name="apple-mobile-web-app-title" content="My Next App" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
@@ -44,6 +61,10 @@ export default function RootLayout({
             <Footer />
           </div>
         </Providers>
+        <Script
+          src="https://my.click.uz/click.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

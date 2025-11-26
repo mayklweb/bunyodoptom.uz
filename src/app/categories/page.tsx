@@ -16,12 +16,16 @@ function Categories() {
     const fetchProducts = async () => {
       const productList = await getProducts();
       const categoryList = await getCategories();
-      setProducts(productList.data);
-      setCategories(categoryList.data);
+      setProducts(productList);
+      setCategories(categoryList);
     };
 
+    console.log(products );
     fetchProducts();
   }, []);
+  
+  console.log(products);
+  
 
   return (
     <section>
@@ -37,17 +41,17 @@ function Categories() {
             </button>
           </div>
           <div className="mt-6 mb-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {products.map((product, key) => (
-              <Link key={key} href={`/product/${product.name.toLowerCase()}`}>
+            {products?.map((product, key) => (
+              <Link key={key} href={`/product/${product.id}`}>
                 <div className="flex flex-col gap-2 rounded-xl cursor-pointer">
                   <div className="w-full h-full rounded-xl overflow-hidden">
-                    <Image
+                    {/* <Image
                       className="w-full h-full object-cover"
-                      src={`http://localhost:4000${product.images[0].url}`}
+                      src={product.images[0].url ? `http://localhost:4000${product?.images[0]?.url}` : '/cookie.webp'}
                       alt="product"
                       width={300}
                       height={200}
-                    />
+                    /> */}
                   </div>
                   <div>
                     <h3 className="text-base lg:text-xl font-medium">

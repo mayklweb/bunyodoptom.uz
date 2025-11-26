@@ -1,10 +1,22 @@
-// next.config.js
 const withPWA = require("next-pwa")({
-  dest: "public",        // service worker qayerda bo‘ladi
+  dest: "public",
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === "development", // dev rejimda ishlamasin
+  disable: process.env.NODE_ENV === "development",
 });
+
+// CSP headerlari
+const securityHeaders = [
+  {
+    key: "Content-Security-Policy",
+    value: `
+      script-src 'self' 'unsafe-inline' blob: https://my.click.uz https://click.uz https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
+      script-src-elem 'self' 'unsafe-inline' blob: https://my.click.uz https://click.uz https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
+      object-src 'none';
+      base-uri 'self';
+    `.replace(/\s{2,}/g, " "),
+  },
+];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,7 +32,16 @@ const nextConfig = {
       },
     ],
   },
+
+  // ⭐⭐ MUHIM: CSP shu yerga qo‘shiladi
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+    ];
+  },
 };
 
-// PWA bilan birga export qilamiz
 module.exports = withPWA(nextConfig);

@@ -1,18 +1,45 @@
+"use client";
+import { useEffect, useState } from "react";
+import { getProducts } from "@/api/apiServices";
+import { cartStore } from "@/store/CartStore";
+import { ProductType } from "@/types";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 
+import React, { use } from "react";
+import { observer } from "mobx-react-lite";
 
-interface ProductPageProps {
-  params: Promise<{
-    id: string;
-  }>;
-}
+export default observer(function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [item, setItem] = useState({} as ProductType);
+  const [data, setData] = useState<any>(null);
+  const { addToCart, inc, dec, cart } = cartStore;
 
-export default async function Product({ params }: ProductPageProps){
-  const { id } = await params; // 🔑 params ni kutib olish kerak
+  const { id } = use(params);
+  const Id = parseInt(id);
 
-  console.log(id);
-  
+  useEffect(() => {
+    async function getProduct() {
+      try {
+        const data = await getProducts();
+
+        const productList = data ?? [];
+
+        const product = productList.find((p: ProductType) => p.id === Id);
+
+        setItem(product || null);
+        setData(productList);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    }
+
+    getProduct();
+  }, [Id]);
+
   return (
     <section>
       <div className="container">
@@ -26,6 +53,7 @@ export default async function Product({ params }: ProductPageProps){
                   width={300}
                   height={200}
                   className="w-full h-full object-cover"
+                  priority
                 />
               </div>
               <div className="w-full h-full rounded-md overflow-hidden">
@@ -35,6 +63,7 @@ export default async function Product({ params }: ProductPageProps){
                   width={300}
                   height={200}
                   className="w-full h-full object-cover"
+                  priority
                 />
               </div>
               <div className="w-full h-full rounded-md overflow-hidden">
@@ -44,6 +73,7 @@ export default async function Product({ params }: ProductPageProps){
                   width={300}
                   height={200}
                   className="w-full h-full object-cover"
+                  priority
                 />
               </div>
               <div className="w-full h-full rounded-md overflow-hidden">
@@ -53,29 +83,40 @@ export default async function Product({ params }: ProductPageProps){
                   width={300}
                   height={200}
                   className="w-full h-full object-cover"
+                  priority
                 />
               </div>
             </div>
             <div className="w-full lg:w-1/2">
-              <h1 className="text-xl lg:text-4xl">Shrinliklar</h1>
+              <h1 className="text-xl lg:text-4xl">{item.name}</h1>
               <p className="text-base lg:text-xl mt-2.5 lg:mt-5">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Deleniti, et?
+                {item.description}
               </p>
               <p className="text-lg lg:text-2xl mt-2.5 lg:mt-5">50 000 USZ</p>
-              <div className="flex items-center gap-3 border border-solid border-black w-max my-5 px-3 py-1 rounded-lg">
-                <button>
-                  <Minus />
-                </button>
-                <span>1</span>
-                <button>
-                  <Plus />
-                </button>
-              </div>
-              <button className="text-white w-full h-10 bg-[#2e3192] rounded-lg cursor-pointer">
+            </div>
+            {!cartStore.cart.find((product) => product.id === Id) ? (
+              // product cartda yo‘q → "SAVATGA"
+              <button
+                onClick={() => cartStore.addToCart(item)}
+                className="text-white w-full h-10 bg-[#2e3192] rounded-lg cursor-pointer mt-5"
+              >
                 SAVATGA
               </button>
-            </div>
+            ) : (
+              <div>
+                <div className="w-max flex items-center gap-3 border border-solid border-black px-3 py-1 rounded-lg">
+                  <button onClick={() => cartStore.dec(Id)}>
+                    <Minus />
+                  </button>
+
+                  <span>{cartStore.cart.find((p) => p.id === Id)?.qty}</span>
+
+                  <button onClick={() => cartStore.inc(Id)}>
+                    <Plus />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
           <div className="mt-10">
             <h1 className="text-2xl font-medium">Tavsia etamiz</h1>
@@ -146,5 +187,4 @@ export default async function Product({ params }: ProductPageProps){
       </div>
     </section>
   );
-}
-
+});

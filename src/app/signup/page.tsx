@@ -2,6 +2,7 @@
 import { authStore } from "@/store/AuthStore";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { PatternFormat } from "react-number-format";
 
@@ -9,6 +10,7 @@ function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const navigate = useRouter();
 
 
   const handelSignUp = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -18,7 +20,10 @@ function SignUp() {
       password,
       phone,
     });
-    console.log("Signup result:", res);
+    if(res && typeof res === 'object' && 'token' in res){
+      navigate.push('/');
+      console.log("Signup successful, token:", res.token);
+    }
   };
 
   return (
