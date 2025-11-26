@@ -1,10 +1,13 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function Settings() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}") || "";
-  console.log("user:", user);
+  const [user, setUser] = useState<string | null>(null);
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user") || "{}") || "";
+    setUser(userData);
+  }, []);
 
   return (
     <section className="mt-[80px]">
