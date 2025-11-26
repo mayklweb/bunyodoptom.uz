@@ -34,18 +34,7 @@ export default function RootLayout({ children }) {
           http-equiv="Content-Security-Policy"
           content="script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'self'; style-src 'self' 'unsafe-inline'; media-src *"
         />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-5S5R83M4GN"
-          strategy="afterInteractive"
-        />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-5S5R83M4GN');
-  `}
-        </Script>
+
         <meta
           http-equiv="Content-Security-Policy"
           content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"
@@ -61,6 +50,18 @@ export default function RootLayout({ children }) {
             <Footer />
           </div>
         </Providers>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-5S5R83M4GN"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5S5R83M4GN');
+  `}
+        </Script>
         <Script
           src="https://my.click.uz/click.js"
           strategy="afterInteractive"

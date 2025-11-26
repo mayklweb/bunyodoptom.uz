@@ -1,6 +1,6 @@
 "use client";
 import { cartStore } from "@/store/CartStore";
-import { Minus, Plus, Trash, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
 

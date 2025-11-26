@@ -69,7 +69,7 @@ const Checkout = observer(() => {
               <button>PAYME</button>
             </div>
           </div>
-          <button className="bg-[#2e3192]" onClick={handleCheckout}>PAYME</button>
+          <button className="bg-[#2e3192]" onClick={handleCheckout} disabled={loading}>CLICK</button>
         </div>
       </div>
     </section>

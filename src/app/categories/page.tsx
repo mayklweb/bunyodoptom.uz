@@ -3,7 +3,6 @@ import { getCategories, getProducts } from "@/api/apiServices";
 import { CategoryType } from "@/types";
 import { ProductType } from "@/types";
 import { X } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
