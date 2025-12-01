@@ -1,10 +1,20 @@
+"use client";
 import { authStore } from "@/store/AuthStore";
+import { UserType } from "@/types";
 import { Search, ShoppingBag, User } from "lucide-react";
+import { observer } from "mobx-react-lite";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 
-function Header() {
+const Header = observer(() => {
+
+  const [user, setUser] = useState<UserType>();
+
+  useEffect(() => {
+    setUser(authStore.user as UserType);
+  }, [])
+
   return (
     <header>
       <div className="w-full bg-white shadow-sm fixed top-0 left-0 z-10">
@@ -55,6 +65,6 @@ function Header() {
       </div>
     </header>
   );
-}
+})
 
 export default Header;

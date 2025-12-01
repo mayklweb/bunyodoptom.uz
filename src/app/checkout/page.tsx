@@ -14,7 +14,8 @@ const Checkout = observer(() => {
     setLoading(true);
 
     // Create order on backend
-    const resp = await fetch("http://localhost:4000/api/v1/checkout", {
+    const resp = await fetch("http://localhost:4000/api/v1/click", {
+      
       // agar frontend va backend alohida bo'lsa baza URL ga o'zgartir
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -25,17 +26,18 @@ const Checkout = observer(() => {
         notes: "Order from Next.js",
       }),
     });
+    console.log(resp);
 
     const json = await resp.json();
     setLoading(false);
 
     if (json && json.paymentUrl) {
       // Redirect user to Click payment page
-      window.location.href = json.paymentUrl;
+      window.open(json.paymentUrl, "_self");
     } else {
       alert("Payment link generation failed");
     }
-  }
+  } 
   return (
     <section>
       <div className="container">

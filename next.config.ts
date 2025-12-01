@@ -1,47 +1,36 @@
-const withPWA = require("next-pwa")({
-  dest: "public",
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === "development",
-});
-
-// CSP headerlari
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: `
-      script-src 'self' 'unsafe-inline' blob: https://my.click.uz https://click.uz https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
-      script-src-elem 'self' 'unsafe-inline' blob: https://my.click.uz https://click.uz https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
-      object-src 'none';
-      base-uri 'self';
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' blob: https://my.click.uz https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
+      connect-src 'self' https://my.click.uz;
+      frame-src https://my.click.uz;
+      img-src 'self' data: blob:;
+      style-src 'self' 'unsafe-inline';
     `.replace(/\s{2,}/g, " "),
   },
 ];
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  experimental: { appDir: true },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "4000",
-        pathname: "/uploads/**",
-      },
-    ],
-  },
-
-  // ⭐⭐ MUHIM: CSP shu yerga qo‘shiladi
+module.exports = {
   async headers() {
     return [
       {
-        source: "/(.*)",
-        headers: securityHeaders,
+        source: "/((?!api|checkout|payment|callback).*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: `
+            default-src 'self';
+            script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' blob: data: https:;
+            connect-src 'self' https://api.bunyodoptom.uz http://localhost:4000;
+            frame-ancestors 'self';
+          `.replace(/\s+/g, " "),
+          },
+        ],
       },
     ];
   },
 };
-
-module.exports = withPWA(nextConfig);
