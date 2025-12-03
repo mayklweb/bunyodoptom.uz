@@ -23,7 +23,7 @@ const Header = observer(() => {
             <div>
               <Link className="hidden lg:block" href="/">
                 <Image
-                  src="/logo.svg"
+                  src="/logo1.svg"
                   alt="Bunyod Optom"
                   width={240}
                   height={50}
