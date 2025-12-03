@@ -27,7 +27,7 @@ const Cart = observer(() => {
                 <div className="flex flex-col flex-auto justify-between">
                   <div>
                     <h3 className="text-base font-medium">{item.name}</h3>
-                    <p className="text-sm text-end">{item.price.toLocaleString()} USZ</p>
+                    <p className="text-sm text-end">{item.price?.toLocaleString()} USZ</p>
                   </div>
                   <div className="flex items-center justify-between ">
                     <div className="flex items-center gap-3 border border-[#cccccc] border-solid rounded-xl ">

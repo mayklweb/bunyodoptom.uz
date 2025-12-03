@@ -26,7 +26,7 @@ export default observer(function ProductPage({
 
         const productList = data ?? [];
 
-        const product = productList.find((p: ProductType) => p.id === Id);
+        const product = productList?.find((p: ProductType) => p.id === Id);
 
         setItem(product || null);
       } catch (error) {
