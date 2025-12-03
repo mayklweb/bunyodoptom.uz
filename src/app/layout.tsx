@@ -28,46 +28,44 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="
-  default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-    https://www.googletagmanager.com 
-    https://www.google-analytics.com 
-    https://my.click.uz 
-    blob:;
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob: https:;
-  connect-src 'self' https://api.bunyodoptom.uz http://localhost:4000 https://www.google-analytics.com https://my.click.uz;
-  font-src 'self' data:;
-  frame-src 'self' https://www.googletagmanager.com;
-  frame-ancestors 'self';
-  worker-src 'self' blob:;
-"
-        ></meta>
+        {/* Manifest va mobil sozlamalari */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'self'; style-src 'self' 'unsafe-inline'; media-src *"
-        />
-
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"
-        />
-        <meta name="apple-mobile-web-app-title" content="My Next App" />
+        <meta name="apple-mobile-web-app-title" content="Bunyod Optom" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+
+        {/* Content Security Policy */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content={`
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval'
+        https://www.googletagmanager.com
+        https://www.google-analytics.com
+        https://my.click.uz
+        https://overbridgenet.com
+        blob:;
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: blob: https:;
+      connect-src 'self'
+        https://api.bunyodoptom.uz
+        http://localhost:4000
+        https://www.google-analytics.com
+        https://www.googletagmanager.com
+        https://my.click.uz
+        https://overbridgenet.com;
+      font-src 'self' data:;
+      frame-src 'self' https://www.googletagmanager.com;
+      frame-ancestors 'self';
+      worker-src 'self' blob:;
+    `.replace(/\s+/g, " ")}
+        />
       </Head>
+
       <body className={`${montserrat.variable}  antialiased`}>
         <Providers>
           <div className="min-h-[100dvh] flex flex-col">

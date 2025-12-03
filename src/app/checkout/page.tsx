@@ -17,7 +17,7 @@ const Checkout = observer(() => {
     }
 
     try {
-      const res = await fetch("https://api.bunyodoptom/api/v1/click/create", {
+      const res = await fetch("https://api.bunyodoptom.uz/api/v1/click/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
