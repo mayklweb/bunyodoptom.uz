@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Axios = axios.create({
-  baseURL: "https://api.bunyodoptom.com/api/v1",
+  baseURL: "https://api.bunyodoptom.uz/api/v1",
 });
 
 export default Axios;

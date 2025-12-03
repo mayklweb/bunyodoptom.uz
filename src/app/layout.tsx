@@ -32,7 +32,24 @@ export default function RootLayout({
           http-equiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
         />
-
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' 
+    https://www.googletagmanager.com 
+    https://www.google-analytics.com 
+    https://my.click.uz 
+    blob:;
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: blob: https:;
+  connect-src 'self' https://api.bunyodoptom.uz http://localhost:4000 https://www.google-analytics.com https://my.click.uz;
+  font-src 'self' data:;
+  frame-src 'self' https://www.googletagmanager.com;
+  frame-ancestors 'self';
+  worker-src 'self' blob:;
+"
+        ></meta>
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
