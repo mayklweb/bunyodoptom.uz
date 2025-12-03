@@ -1,18 +1,7 @@
-const securityHeaders = [
-  {
-    key: "Content-Security-Policy",
-    value: `
-      default-src 'self';
-      script-src 'self' 'unsafe-inline' blob: https://my.click.uz https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
-      connect-src 'self' https://my.click.uz;
-      frame-src https://my.click.uz;
-      img-src 'self' data: blob:;
-      style-src 'self' 'unsafe-inline';
-    `.replace(/\s{2,}/g, " "),
-  },
-];
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
 
-module.exports = {
   async headers() {
     return [
       {
@@ -21,16 +10,57 @@ module.exports = {
           {
             key: "Content-Security-Policy",
             value: `
-            default-src 'self';
-            script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://maps.googleapis.com https://www.google-analytics.com;
-            style-src 'self' 'unsafe-inline';
-            img-src 'self' blob: data: https:;
-            connect-src 'self' https://api.bunyodoptom.uz http://localhost:4000;
-            frame-ancestors 'self';
-          `.replace(/\s+/g, " "),
+              default-src 'self';
+              
+              /* JS scripts */
+              script-src 
+                'self' 
+                'unsafe-inline' 
+                https://www.googletagmanager.com 
+                https://www.google-analytics.com 
+                https://maps.googleapis.com;
+
+              /* Styles */
+              style-src 
+                'self' 
+                'unsafe-inline';
+
+              /* Images */
+              img-src 
+                'self' 
+                blob: 
+                data: 
+                https:;
+
+              /* Fonts */
+              font-src 
+                'self' 
+                data: 
+                https:;
+
+              /* Connections (Very Important!) */
+              connect-src 
+                'self' 
+                https://api.bunyodoptom.uz 
+                http://localhost:4000 
+                https://www.google-analytics.com 
+                https://www.googletagmanager.com;
+
+              /* iFrames */
+              frame-src 
+                'self' 
+                https://www.googletagmanager.com;
+
+              frame-ancestors 'self';
+
+              /* Workers */
+              worker-src 'self' blob:;
+            `.replace(/\s+/g, " "),
           },
         ],
       },
     ];
   },
 };
+
+module.exports = nextConfig;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Axios = axios.create({
-  baseURL: "https://005c297b2f1afa3d.mokky.dev",
+  baseURL: "https://api.bunyodoptom.com/api/v1",
 });
 
 export default Axios;

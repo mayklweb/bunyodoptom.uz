@@ -11,33 +11,40 @@ const Checkout = observer(() => {
   const [loading, setLoading] = useState<boolean>(false);
 
   async function handleCheckout() {
-    setLoading(true);
-
-    // Create order on backend
-    const resp = await fetch("http://localhost:4000/api/v1/click", {
-      
-      // agar frontend va backend alohida bo'lsa baza URL ga o'zgartir
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: 1,
-        address_id: null,
-        total_amount: 12000, // Click talab qilgan formatda (so'm yoki tiyin)
-        notes: "Order from Next.js",
-      }),
-    });
-    console.log(resp);
-
-    const json = await resp.json();
-    setLoading(false);
-
-    if (json && json.paymentUrl) {
-      // Redirect user to Click payment page
-      window.open(json.paymentUrl, "_self");
-    } else {
-      alert("Payment link generation failed");
+    if (!user) {
+      console.log("User is not authenticated");
+      return;
     }
-  } 
+
+    try {
+      const res = await fetch("https://api.bunyodoptom/api/v1/click/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: user.id, // user ID
+          total_amount: 1000, // umumiy summa
+          address_id: null, // bo‘lsa
+          notes: "", // optional
+          idempotency_key: crypto.randomUUID(), // optional
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log("Server error:", data);
+        return;
+      }
+
+      // Payment URL → Userni Click tolovga yo‘naltiramiz
+      window.location.href = data.paymentUrl;
+    } catch (error) {
+      console.log("Checkout error:", error);
+    }
+  }
+
   return (
     <section>
       <div className="container">
@@ -70,7 +77,13 @@ const Checkout = observer(() => {
               <button>PAYME</button>
             </div>
           </div>
-          <button className="bg-[#2e3192]" onClick={handleCheckout} disabled={loading}>CLICK</button>
+          <button
+            className="bg-[#2e3192]"
+            onClick={handleCheckout}
+            disabled={loading}
+          >
+            CLICK
+          </button>
         </div>
       </div>
     </section>
