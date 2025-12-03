@@ -5,38 +5,42 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/((?!api|checkout|payment|callback).*)",
+        source: "/(.*)",
         headers: [
           {
             key: "Content-Security-Policy",
             value: `
               default-src 'self';
               
-              script-src 'self' 'unsafe-inline' 'unsafe-eval'
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:
                 https://www.googletagmanager.com
+                https://maps.googleapis.com
                 https://www.google-analytics.com
-                https://my.click.uz
-                https://overbridgenet.com
-                blob:;
+                https://my.click.uz;
               
+              script-src-elem 'self' 'unsafe-inline' blob:
+                https://www.googletagmanager.com
+                https://maps.googleapis.com
+                https://www.google-analytics.com
+                https://my.click.uz;
+
               style-src 'self' 'unsafe-inline';
-              
-              img-src 'self' blob: data: https:;
-              
-              font-src 'self' data:;
-              
+
+              img-src 'self' data: blob: https:;
+
+              font-src 'self' data: https:;
+
               connect-src 'self'
                 https://api.bunyodoptom.uz
-                http://localhost:4000
+                https://www.bunyodoptom.uz
+                https://api.click.uz
+                https://api-dev.click.uz
                 https://www.google-analytics.com
-                https://www.googletagmanager.com
+                https://region1.google-analytics.com
                 https://my.click.uz
-                https://overbridgenet.com;
-              
-              frame-src 'self' https://www.googletagmanager.com;
-              
-              frame-ancestors 'self';
-              
+                blob:;
+
+              frame-src 'self' https://my.click.uz https://www.googletagmanager.com;
               worker-src 'self' blob:;
             `.replace(/\s+/g, " "),
           },
