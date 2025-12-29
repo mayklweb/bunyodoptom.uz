@@ -6,7 +6,6 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 function normalizeProducts(products: ProductType[]): ProductType[] {
   return products
@@ -24,9 +23,7 @@ function normalizeProducts(products: ProductType[]): ProductType[] {
 
 function Categories() {
 
- const searchParams = useSearchParams();
 
- console.log(searchParams);
  
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<Array<ProductType>>([]);
