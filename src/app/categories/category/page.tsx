@@ -25,7 +25,7 @@ function normalizeProducts(products: ProductType[]): ProductType[] {
 
 export default function CategoryProductsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
 
   const searchParams = useSearchParams();
