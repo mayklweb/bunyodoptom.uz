@@ -25,7 +25,7 @@ function Categories() {
               key={key}
               className="lg:bg-[#CECFFF] bg-transparent rounded-xl flex items-center justify-center flex-col lg:flex-row gap-1 lg:p-2 cursor-pointer hover:shadow-md transition-all duration-200 ease-in-out"
             >
-              <div className="p-2 bg-[#CECFFF] rounded-md flex items-center justify-center">
+              <div className="p-2 bg-[#CECFFF] rounded-xl flex items-center justify-center">
                 <Image
                   src="/favicon.svg"
                   className="lg:p-1"

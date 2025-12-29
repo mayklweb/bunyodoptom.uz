@@ -19,17 +19,16 @@ export default observer(function ProductPage({
 
   const { id } = use(params);
   const Id = parseInt(id);
-  
-  
+
   useEffect(() => {
     async function getProduct() {
       try {
         setLoading(true);
-        const {data} = await getProducts();
+        const { data } = await getProducts();
         const productList = data ?? [];
         const product = productList?.find((p: ProductType) => p.id === Id);
         console.log(data);
-         
+
         setItem(product || null);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -74,47 +73,20 @@ export default observer(function ProductPage({
       <div className="container">
         <div className="mt-[80px] lg:mt-[100px]">
           <div className="flex flex-col lg:flex-row gap-5">
-            <div className="w-full lg:w-1/2 grid grid-cols-2 gap-2">
-              <div className="w-full h-full rounded-md overflow-hidden">
-                <Image
-                  src="/candy.webp"
-                  alt=""
-                  width={300}
-                  height={200}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              </div>
-              <div className="w-full h-full rounded-md overflow-hidden">
-                <Image
-                  src="/cookie.webp"
-                  alt=""
-                  width={300}
-                  height={200}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              </div>
-              <div className="w-full h-full rounded-md overflow-hidden">
-                <Image
-                  src="/candy.webp"
-                  alt=""
-                  width={300}
-                  height={200}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              </div>
-              <div className="w-full h-full rounded-md overflow-hidden">
-                <Image
-                  src="/cookie.webp"
-                  alt=""
-                  width={300}
-                  height={200}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              </div>
+            <div className="w-full lg:w-1/2 grid grid-cols-1 gap-2">
+              {item.images.map((image: any) => (
+                <div className="w-full h-full rounded-md overflow-hidden">
+                  <Image
+                    key={image.id}
+                    src={`https://api.bunyodoptom.uz${image.url}`}
+                    alt={item.name}
+                    width={300}
+                    height={200}
+                    className="w-full h-full object-cover"
+                    priority
+                  />
+                </div>
+              ))}
             </div>
             <div className="w-full lg:w-1/2">
               <h1 className="text-xl lg:text-4xl">{item.name}</h1>
@@ -124,7 +96,7 @@ export default observer(function ProductPage({
               <p className="text-lg lg:text-2xl mt-2.5 lg:mt-5">
                 {item.price?.toLocaleString()} USZ
               </p>
-              
+
               {/* Stock info */}
               <p className="text-sm text-gray-600 mt-2">
                 Stock: {item.stock_qty}
@@ -142,7 +114,7 @@ export default observer(function ProductPage({
               ) : (
                 <div className="mt-5">
                   <div className="w-max flex items-center gap-3 border border-solid border-black px-3 py-1 rounded-lg">
-                    <button 
+                    <button
                       onClick={() => cartStore.dec(Id)}
                       disabled={currentQty <= 1}
                       className="disabled:opacity-50"
@@ -152,7 +124,7 @@ export default observer(function ProductPage({
 
                     <span>{currentQty}</span>
 
-                    <button 
+                    <button
                       onClick={() => cartStore.inc(Id)}
                       disabled={currentQty >= item.stock_qty}
                       className="disabled:opacity-50"
