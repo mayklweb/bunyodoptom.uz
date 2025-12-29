@@ -6,45 +6,45 @@ import React, { useState } from "react";
 const Checkout = observer(() => {
   const { user } = authStore;
 
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
 
-  async function handleCheckout() {
-    if (!user) {
-      console.log("User is not authenticated");
-      return;
-    }
+  // async function handleCheckout() {
+  //   if (!user) {
+  //     console.log("User is not authenticated");
+  //     return;
+  //   }
 
-    try {
-      const res = await fetch(
-        "https://api.bunyodoptom.uz/api/v1/click/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: user.id, // user ID
-            total_amount: 1000, // umumiy summa
-            address_id: null, // bo‘lsa
-            notes: "", // optional
-            idempotency_key: crypto.randomUUID(), // optional
-          }),
-        }
-      );
+  //   try {
+  //     const res = await fetch(
+  //       "https://api.bunyodoptom.uz/api/v1/click/create",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           user_id: user.id, // user ID
+  //           total_amount: 1000, // umumiy summa
+  //           address_id: null, // bo‘lsa
+  //           notes: "", // optional
+  //           idempotency_key: crypto.randomUUID(), // optional
+  //         }),
+  //       }
+  //     );
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (!res.ok) {
-        console.log("Server error:", data);
-        return;
-      }
+  //     if (!res.ok) {
+  //       console.log("Server error:", data);
+  //       return;
+  //     }
 
-      // Payment URL → Userni Click tolovga yo‘naltiramiz
-      window.location.href = data.paymentUrl;
-    } catch (error) {
-      console.log("Checkout error:", error);
-    }
-  }
+  //     // Payment URL → Userni Click tolovga yo‘naltiramiz
+  //     window.location.href = data.paymentUrl;
+  //   } catch (error) {
+  //     console.log("Checkout error:", error);
+  //   }
+  // }
 
   return (
     <section>
@@ -101,8 +101,8 @@ const Checkout = observer(() => {
           </form>
           <button
             className="bg-[#2e3192]"
-            onClick={handleCheckout}
-            disabled={loading}
+            // onClick={handleCheckout}
+            // disabled={loading}
           >
             CLICK
           </button>
