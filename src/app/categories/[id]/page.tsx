@@ -8,17 +8,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-function normalizeProducts(products: ProductType[]): ProductType[] {
+function normalizeProducts(products: Product[]): Product[] {
   return products
     .filter(
-      (product) =>
-        Array.isArray(product.images) &&
-        product.images.length > 0 &&
-        product.images[0]?.url
+      (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.url
     )
-    .map((product) => ({
-      ...product,
-      mainImage: `https://api.bunyodoptom.uz${product.images[1].url}`,
+    .map((p) => ({
+      ...p,
+      mainImage: `https://api.bunyodoptom.uz${p.images[0].url}` as string,
     }));
 }
 
@@ -26,7 +23,6 @@ export default function CategoryProductsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<ProductType[]>([]);
   const [categories, setCategories] = useState<CategoryType[]>([]);
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -60,12 +56,8 @@ export default function CategoryProductsPage() {
                   <div className="w-full h-full rounded-xl overflow-hidden">
                     <Image
                       className="w-full h-full object-cover"
-                      src={
-                        product.images?.[0]?.url
-                          ? `https://api.bunyodoptom.uz${product.images[1].url}`
-                          : "/placeholder.png"
-                      }
-                      alt="product"
+                      src={product.mainImage ?? "/placeholder.png"}
+                      alt={product.name}
                       width={300}
                       height={200}
                     />
