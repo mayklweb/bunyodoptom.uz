@@ -15,7 +15,7 @@ function normalizeProducts(products: ProductType[]): ProductType[] {
     )
     .map((p) => ({
       ...p,
-      mainImage: `https://api.bunyodoptom.uz${p.images[0].url}` as string,
+      mainImage: `https://api.bunyodoptom.uz${p.images[1].url}` as string,
     }));
 }
 
@@ -80,9 +80,9 @@ export default function CategoryProductsPage() {
         </div>
       </div>
       <div
-        className={`w-full h-[80%] bg-white fixed bottom-0 left-0 z-20 
+        className={`w-full h-[80%] bg-white fixed bottom-0 left-0 z-20  overflow-y-scroll
 
-    rounded-t-4xl pt-4 transition-transform duration-500
+    rounded-t-4xl py-4 transition-transform duration-500
     ${
       isFilterOpen
         ? "translate-y-0 shadow-[0px_-2px_5px_0px_rgba(0,_0,_0,_0.1)] "

@@ -22,7 +22,7 @@ function normalizeProducts(products: Product[]): Product[] {
     )
     .map((p) => ({
       ...p,
-      mainImage: `https://api.bunyodoptom.uz${p.images[0].url}`, // har doim string bo‘ladi
+      mainImage: `https://api.bunyodoptom.uz${p.images[1].url}`, // har doim string bo‘ladi
     }));
 }
 
