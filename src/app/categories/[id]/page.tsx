@@ -29,7 +29,7 @@ export default function CategoryProductsPage() {
   const [categories, setCategories] = useState<any[]>([]);
 
   const searchParams = useSearchParams();
-  const categoryId = searchParams.get("id");
+  const _categoryId = searchParams.get("id");
 
   useEffect(() => {
     const fetchProducts = async () => {

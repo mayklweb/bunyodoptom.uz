@@ -19,7 +19,7 @@ function normalizeProducts(products: ProductType[]): ProductType[] {
 }
 
 function Products() {
-  const [products, setProducts] = useState<ProductType[]>([]);
+  const [products, setProducts] = useState<Array<ProductType>>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {

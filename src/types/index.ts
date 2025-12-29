@@ -32,6 +32,7 @@ export interface ProductType {
   price: number;
   stock_qty: number;
   images: ProductImage[];
+  mainImage?: string;
   category: string;
   qty?: number; // Qo'shimcha maydon, agar kerak bo'lsa
 }
