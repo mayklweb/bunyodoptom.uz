@@ -1,9 +1,9 @@
 "use client";
-import { authStore } from "@/store/AuthStore";
+// import { authStore } from "@/store/AuthStore";
 import { observer } from "mobx-react-lite";
 
 const Checkout = observer(() => {
-  const { user } = authStore;
+  // const { user } = authStore;
 
   // const [loading, setLoading] = useState<boolean>(false);
 
