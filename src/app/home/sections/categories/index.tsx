@@ -1,4 +1,5 @@
 import { getCategories } from "@/api/apiServices";
+import { CategoryType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ function Categories() {
     <section>
       <div className="container">
         <div className="mt-6 mb-10 grid grid-cols-4 gap-2 lg:gap-4">
-          {categories.slice(2, 10).map((category: any, key: number) => (
+          {categories.slice(2, 10).map((category: CategoryType, key: number) => (
             <Link
               href={`/categories/category?id=${category.id}`}
               key={key}
