@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-function normalizeProducts(products: Product[]): Product[] {
+function normalizeProducts(products: ProductType[]): ProductType[] {
   return products
     .filter(
       (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.url
