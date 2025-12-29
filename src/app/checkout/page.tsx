@@ -1,6 +1,5 @@
 "use client";
 import { authStore } from "@/store/AuthStore";
-import { cartStore } from "@/store/CartStore";
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 
