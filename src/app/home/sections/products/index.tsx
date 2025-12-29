@@ -4,22 +4,33 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-function normalizeProducts(products: ProductType[]): ProductType[] {
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  images: { url: string }[];
+  category_id: number;
+  category?: string;
+  description?: string;
+  stock_qty?: number;
+  mainImage?: string;
+};
+
+const [products, setProducts] = useState<Product[]>([]);
+
+function normalizeProducts(products: Product[]): Product[] {
   return products
     .filter(
-      (product) =>
-        Array.isArray(product.images) &&
-        product.images.length > 0 &&
-        product.images[0]?.url
+      (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.url
     )
-    .map((product) => ({
-      ...product,
-      mainImage: `https://api.bunyodoptom.uz${product.images[1].url}`,
+    .map((p) => ({
+      ...p,
+      mainImage: `https://api.bunyodoptom.uz${p.images[0].url}`, // har doim string bo‘ladi
     }));
 }
 
 function Products() {
-  const [products, setProducts] = useState<Array<ProductType>>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,7 +59,7 @@ function Products() {
                 <div className="w-full h-full rounded-xl overflow-hidden">
                   <Image
                     className="w-full h-full object-cover"
-                    src={product.mainImage}
+                    src={product.mainImage ?? "/placeholder.png"} // agar mainImage undefined bo‘lsa placeholder ishlaydi
                     alt={product.name}
                     width={300}
                     height={200}
@@ -59,7 +70,9 @@ function Products() {
                   <h3 className="text-sm sm:text-base lg:text-xl font-medium">
                     {product.name}
                   </h3>
-                  <p className="text-xs sm:text-sm lg:text-base">{product.price} USZ</p>
+                  <p className="text-xs sm:text-sm lg:text-base">
+                    {product.price} USZ
+                  </p>
                 </div>
               </div>
             </Link>
