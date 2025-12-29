@@ -5,11 +5,14 @@ import { Search, ShoppingBag, User } from "lucide-react";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
 import Link from "next/link";
-import React, { use, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 
 const Header = observer(() => {
 
   const [user, setUser] = useState<UserType>();
+
+  console.log(user);
+  
 
   useEffect(() => {
     setUser(authStore.user as UserType);

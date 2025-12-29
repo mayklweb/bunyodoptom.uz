@@ -6,7 +6,6 @@ import React, { useState } from "react";
 
 const Checkout = observer(() => {
   const { user } = authStore;
-  const { cart } = cartStore;
 
   const [loading, setLoading] = useState<boolean>(false);
 
