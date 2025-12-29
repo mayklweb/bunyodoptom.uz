@@ -1,7 +1,6 @@
 "use client";
 import { authStore } from "@/store/AuthStore";
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
 
 const Checkout = observer(() => {
   const { user } = authStore;
