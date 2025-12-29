@@ -26,7 +26,10 @@ const Footer = observer(() => {
               <p className="text-xs">Ummumiy summa:</p>
               <p className="font-semibold">{totalPrice.toLocaleString()} USZ</p>
             </div>
-            <Link href={'/checkout'} className="p-2 bg-[#2e3192] text-white rounded-xl">
+            <Link
+              href={"/checkout"}
+              className="p-2 bg-[#2e3192] text-white rounded-xl"
+            >
               Rasmiylashtirish
             </Link>
           </div>

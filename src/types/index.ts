@@ -37,6 +37,7 @@ export interface ProductType {
 }
 
 export interface CategoryType {
+  id: number;
   name: string;
   icon: string;
 }

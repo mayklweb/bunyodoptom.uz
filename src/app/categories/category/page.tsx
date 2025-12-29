@@ -1,12 +1,12 @@
 "use client";
+
 import { getCategories, getProducts } from "@/api/apiServices";
-import { CategoryType } from "@/types";
-import { ProductType } from "@/types";
 import { X } from "lucide-react";
-import Link from "next/link";
+
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 function normalizeProducts(products: any[]) {
   return products
@@ -22,15 +22,13 @@ function normalizeProducts(products: any[]) {
     }));
 }
 
-function Categories() {
-
- const searchParams = useSearchParams();
-
- console.log(searchParams);
- 
+export default function CategoryProductsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [products, setProducts] = useState<Array<ProductType>>([]);
-  const [categories, setCategories] = useState<Array<CategoryType>>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get("id");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,7 +49,7 @@ function Categories() {
           <div className="w-full flex items-center justify-between">
             <h1 className="text-2xl lg:text-4xl font-semibold">Katalog</h1>
             <button
-              className="text-[#fff] py-1 px-4 bg-[#2e3192] border-[1px] border-[#2e3192] border-solid rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:bg-transparent hover:text-[#2e3192]"
+              className="text-[#fff] py-1 px-4 bg-[#2e3192] border-[1px] border-[#2e3192] border-solid rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-transparent hover:text-[#2e3192]"
               onClick={() => setIsFilterOpen(true)}
             >
               Filter
@@ -104,17 +102,43 @@ function Categories() {
         <div className="container">
           <div className="w-full">
             <div className="w-full flex justify-between">
-              <h1 className="text-xl font-medium">Filter</h1>
+              <h1 className="text-lg font-semibold tracking-tight">
+                KATEGORIYA
+              </h1>
               <button onClick={() => setIsFilterOpen(false)}>
                 <X />
               </button>
             </div>
             <div>
-              {categories.map((category, key) => (
-                <Link href={`/categories?category=${category.id}`} key={key} className="mt-4">
-                {category.name}
-                </Link>
-              ))}
+              <div>
+                <div className="mt-2.5 flex flex-wrap gap-4">
+                  {categories.map((category, key) => (
+                    <Link
+                      key={key}
+                      href={`/categories?category=${category.id}`}
+                      className="text-sm bg-[#CECFFF] px-4 py-2 rounded-lg"
+                    >
+                      {category.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-5">
+                <h3 className="text-lg font-semibold tracking-tight">
+                  Brendlar
+                </h3>
+                <div className="mt-2.5 flex flex-wrap gap-4">
+                  {categories.map((category, key) => (
+                    <Link
+                      href={`/categories?category=${category.id}`}
+                      key={key}
+                      className="text-sm bg-[#CECFFF] px-4 py-2 rounded-lg"
+                    >
+                      {category.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -122,5 +146,3 @@ function Categories() {
     </section>
   );
 }
-
-export default Categories;

@@ -11,15 +11,20 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+// You could remove <Head> and move apple/meta links to metadata or a `head.tsx`
 export const metadata: Metadata = {
   title: "Bunyod Optom distribyutorlik firmasi",
   description:
     "Bunyod Optom - Eng yaxshi narxlar, keng assortiment, tez yetkazib berish",
-  icons: {
-    icon: "/logo1.svg",
-  },
+  icons: { icon: "/favicon.svg" },
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Bunyod Optom",
+  },
 };
+
 export default function RootLayout({
   children,
 }: {
@@ -28,7 +33,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        {/* Manifest va mobil sozlamalari */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
@@ -37,33 +41,6 @@ export default function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="Bunyod Optom" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-
-        {/* Content Security Policy */}
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content={`
-      default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval'
-        https://www.googletagmanager.com
-        https://www.google-analytics.com
-        https://my.click.uz
-        https://overbridgenet.com
-        blob:;
-      style-src 'self' 'unsafe-inline';
-      img-src 'self' data: blob: https:;
-      connect-src 'self'
-        https://api.bunyodoptom.uz
-        http://localhost:4000
-        https://www.google-analytics.com
-        https://www.googletagmanager.com
-        https://my.click.uz
-        https://overbridgenet.com;
-      font-src 'self' data:;
-      frame-src 'self' https://www.googletagmanager.com;
-      frame-ancestors 'self';
-      worker-src 'self' blob:;
-    `.replace(/\s+/g, " ")}
-        />
       </Head>
 
       <body className={`${montserrat.variable}  antialiased`}>

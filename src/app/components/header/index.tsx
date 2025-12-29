@@ -57,7 +57,7 @@ const Header = observer(() => {
                 className="flex gap-2 px-2 lg:px-4 rounded-md items-center justify-center hover:bg-[#e5e7eb] cursor-pointer transition-all duration-200 ease-in-out"
               >
                 <ShoppingBag size={24} strokeWidth={1.5} />
-                <p className="text-lg font-medium hidden lg:block">Savat</p>
+                <p className="text-lg font-medium hidden lg:block">SAVAT</p>
               </Link>
             </div>
           </div>

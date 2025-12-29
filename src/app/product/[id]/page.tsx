@@ -14,28 +14,60 @@ export default observer(function ProductPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const [item, setItem] = useState({} as ProductType);
+  const [item, setItem] = useState<ProductType | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const { id } = use(params);
   const Id = parseInt(id);
-
+  
+  
   useEffect(() => {
     async function getProduct() {
       try {
-        const data = await getProducts();
-
+        setLoading(true);
+        const {data} = await getProducts();
         const productList = data ?? [];
-
         const product = productList?.find((p: ProductType) => p.id === Id);
-
+        console.log(data);
+         
         setItem(product || null);
       } catch (error) {
         console.error("Error fetching product:", error);
+        setItem(null);
+      } finally {
+        setLoading(false);
       }
     }
 
     getProduct();
   }, [Id]);
+
+  if (loading) {
+    return (
+      <section>
+        <div className="container">
+          <div className="mt-[80px] lg:mt-[100px]">
+            <p>Loading...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!item) {
+    return (
+      <section>
+        <div className="container">
+          <div className="mt-[80px] lg:mt-[100px]">
+            <p>Product not found</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const cartItem = cartStore.cart.find((product) => product.id === Id);
+  const currentQty = cartItem?.qty || 0;
 
   return (
     <section>
@@ -89,31 +121,48 @@ export default observer(function ProductPage({
               <p className="text-base lg:text-xl mt-2.5 lg:mt-5">
                 {item.description}
               </p>
-              <p className="text-lg lg:text-2xl mt-2.5 lg:mt-5">50 000 USZ</p>
-            </div>
-            {!cartStore.cart.find((product) => product.id === Id) ? (
-              // product cartda yo‘q → "SAVATGA"
-              <button
-                onClick={() => cartStore.addToCart(item)}
-                className="text-white w-full h-10 bg-[#2e3192] rounded-lg cursor-pointer mt-5"
-              >
-                SAVATGA
-              </button>
-            ) : (
-              <div>
-                <div className="w-max flex items-center gap-3 border border-solid border-black px-3 py-1 rounded-lg">
-                  <button onClick={() => cartStore.dec(Id)}>
-                    <Minus />
-                  </button>
+              <p className="text-lg lg:text-2xl mt-2.5 lg:mt-5">
+                {item.price?.toLocaleString()} USZ
+              </p>
+              
+              {/* Stock info */}
+              <p className="text-sm text-gray-600 mt-2">
+                Stock: {item.stock_qty}
+              </p>
 
-                  <span>{cartStore.cart.find((p) => p.id === Id)?.qty}</span>
+              {/* Add to cart / quantity controls */}
+              {!cartItem ? (
+                <button
+                  onClick={() => cartStore.addToCart(item)}
+                  disabled={item.stock_qty <= 0}
+                  className="text-white w-full h-10 bg-[#2e3192] rounded-lg cursor-pointer mt-5 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                  {item.stock_qty <= 0 ? "OUT OF STOCK" : "SAVATGA"}
+                </button>
+              ) : (
+                <div className="mt-5">
+                  <div className="w-max flex items-center gap-3 border border-solid border-black px-3 py-1 rounded-lg">
+                    <button 
+                      onClick={() => cartStore.dec(Id)}
+                      disabled={currentQty <= 1}
+                      className="disabled:opacity-50"
+                    >
+                      <Minus />
+                    </button>
 
-                  <button onClick={() => cartStore.inc(Id)}>
-                    <Plus />
-                  </button>
+                    <span>{currentQty}</span>
+
+                    <button 
+                      onClick={() => cartStore.inc(Id)}
+                      disabled={currentQty >= item.stock_qty}
+                      className="disabled:opacity-50"
+                    >
+                      <Plus />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <div className="mt-10">
             <h1 className="text-2xl font-medium">Tavsia etamiz</h1>

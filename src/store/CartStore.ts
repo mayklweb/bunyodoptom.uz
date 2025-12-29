@@ -1,5 +1,5 @@
 import { ProductType } from "@/types";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 class CartStore {
   cart: (ProductType & { qty: number })[] = [];
@@ -9,7 +9,11 @@ class CartStore {
 
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("cart");
-      this.cart = saved ? JSON.parse(saved) : [];
+      if (saved) {
+        runInAction(() => {
+          this.cart = JSON.parse(saved);
+        });
+      }
     }
   }
 
@@ -27,33 +31,46 @@ class CartStore {
   addToCart = (item: ProductType) => {
     if (item.stock_qty <= 0) return;
 
-    const existing = this.cart.find((p) => p.id === item.id);
-    if (existing) {
-      if (existing.qty < item.stock_qty) {
-        existing.qty += item.qty || 1;
-      }
+    const existingIndex = this.cart.findIndex((p) => p.id === item.id);
+
+    if (existingIndex !== -1) {
+      const existing = this.cart[existingIndex];
+      const newQty = existing.qty + (item.qty || 1);
+      const clampedQty = newQty > item.stock_qty ? item.stock_qty : newQty;
+      
+      // Create new array with updated item to maintain MobX reactivity
+      this.cart = [
+        ...this.cart.slice(0, existingIndex),
+        { ...existing, qty: clampedQty },
+        ...this.cart.slice(existingIndex + 1)
+      ];
     } else {
-      this.cart.push({ ...item, qty: 1 });
+      this.cart = [...this.cart, { ...item, qty: item.qty || 1 }];
     }
+
     this.saveCart();
   };
 
   inc = (id: number) => {
-    const item = this.cart.find((p) => p.id === id);
-    if (item && item.qty < item.stock_qty) {
-      item.qty += 1;
-      this.saveCart();
-    }
-  };
-
-  dec = (id: number) => {
     this.cart = this.cart.map((item) =>
-      item.id === id && item.qty > 1
-        ? { ...item, qty: item.qty - 1 }
+      item.id === id
+        ? { ...item, qty: Math.min(item.qty + 1, item.stock_qty) }
         : item
     );
     this.saveCart();
   };
+
+  dec = (id: number) => {
+    this.cart = this.cart.map((item) =>
+      item.id === id && item.qty > 1 ? { ...item, qty: item.qty - 1 } : item
+    );
+
+    this.saveCart();
+  };
+
+  getTotal = () => this.cart.reduce((acc, item) => acc + (item.price ?? 0) * item.qty, 0);
+
+  getItemCount = () => this.cart.reduce((acc, item) => acc + item.qty, 0);
 
   remove = (id: number) => {
     this.cart = this.cart.filter((item) => item.id !== id);

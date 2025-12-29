@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-
+  images: {
+    domains: ["api.bunyodoptom.uz"], // Add your external host here
+  },
   async headers() {
     return [
       {
