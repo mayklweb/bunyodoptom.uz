@@ -1,7 +1,7 @@
 "use client";
 
 import { getCategories, getProducts } from "@/api/apiServices";
-import { ProductType } from "@/types";
+import { CategoryType, ProductType } from "@/types";
 import { X } from "lucide-react";
 
 import Image from "next/image";
@@ -25,7 +25,7 @@ function normalizeProducts(products: ProductType[]): ProductType[] {
 export default function CategoryProductsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<ProductType[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
 
   useEffect(() => {
