@@ -1,9 +1,10 @@
 import { getProducts } from "@/api/apiServices";
+import { ProductType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-function normalizeProducts(products: any[]) {
+function normalizeProducts(products: ProductType[]): ProductType[] {
   return products
     .filter(
       (product) =>

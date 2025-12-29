@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-function normalizeProducts(products: any[]) {
+function normalizeProducts(products: ProductType[]): ProductType[] {
   return products
     .filter(
       (product) =>
