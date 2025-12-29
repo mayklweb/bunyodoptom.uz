@@ -1,5 +1,4 @@
 import { getProducts } from "@/api/apiServices";
-import { ProductType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -15,8 +14,6 @@ type Product = {
   stock_qty?: number;
   mainImage?: string;
 };
-
-const [products, setProducts] = useState<Product[]>([]);
 
 function normalizeProducts(products: Product[]): Product[] {
   return products
