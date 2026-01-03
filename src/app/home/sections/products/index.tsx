@@ -22,7 +22,9 @@ function normalizeProducts(products: Product[]): Product[] {
     )
     .map((p) => ({
       ...p,
-      mainImage: `https://api.bunyodoptom.uz${p.images[1].url}`, // har doim string bo‘ladi
+      mainImage:
+        `https://api.bunyodoptom.uz${p.images[0].url}` &&
+        `https://api.bunyodoptom.uz${p.images[0].url}`,
     }));
 }
 
@@ -56,7 +58,11 @@ function Products() {
                 <div className="w-full h-full rounded-xl overflow-hidden">
                   <Image
                     className="w-full h-full object-cover"
-                    src={product.mainImage ?? "/placeholder.png"} // agar mainImage undefined bo‘lsa placeholder ishlaydi
+                    src={
+                      product.images?.[1]?.url
+                        ? `https://api.bunyodoptom.uz${product.images[1].url}`
+                        : `https://api.bunyodoptom.uz${product.images[0].url}`
+                    } // agar mainImage undefined bo‘lsa placeholder ishlaydi
                     alt={product.name}
                     width={300}
                     height={200}
