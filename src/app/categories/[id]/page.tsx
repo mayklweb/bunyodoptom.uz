@@ -15,7 +15,9 @@ function normalizeProducts(products: ProductType[]): ProductType[] {
     )
     .map((p) => ({
       ...p,
-      mainImage: `https://api.bunyodoptom.uz${p.images[1].url}` as string,
+      mainImage:
+        `https://api.bunyodoptom.uz${p.images[0].url}` &&
+        `https://api.bunyodoptom.uz${p.images[0].url}`,
     }));
 }
 
@@ -56,7 +58,11 @@ export default function CategoryProductsPage() {
                   <div className="w-full h-full rounded-xl overflow-hidden">
                     <Image
                       className="w-full h-full object-cover"
-                      src={product.mainImage ?? "/placeholder.png"}
+                      src={
+                        product.images?.[1]?.url
+                          ? `https://api.bunyodoptom.uz${product.images[1].url}`
+                          : `https://api.bunyodoptom.uz${product.images[0].url}`
+                      }
                       alt={product.name}
                       width={300}
                       height={200}

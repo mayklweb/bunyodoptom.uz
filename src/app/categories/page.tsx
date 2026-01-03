@@ -10,21 +10,17 @@ import { useEffect, useState } from "react";
 function normalizeProducts(products: ProductType[]): ProductType[] {
   return products
     .filter(
-      (product) =>
-        Array.isArray(product.images) &&
-        product.images.length > 0 &&
-        product.images[0]?.url
+      (p) => Array.isArray(p.images) && p.images.length > 0 && p.images[0]?.url
     )
-    .map((product) => ({
-      ...product,
-      mainImage: `https://api.bunyodoptom.uz${product.images[1].url}`,
+    .map((p) => ({
+      ...p,
+      mainImage:
+        `https://api.bunyodoptom.uz${p.images[0].url}` &&
+        `https://api.bunyodoptom.uz${p.images[0].url}`,
     }));
 }
 
 function Categories() {
-
-
- 
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<Array<ProductType>>([]);
   const [categories, setCategories] = useState<Array<CategoryType>>([]);
@@ -62,9 +58,9 @@ function Categories() {
                     <Image
                       className="w-full h-full object-cover"
                       src={
-                        product.images?.[0]?.url
+                        product.images?.[1]?.url
                           ? `https://api.bunyodoptom.uz${product.images[1].url}`
-                          : "/placeholder.png"
+                          : `https://api.bunyodoptom.uz${product.images[0].url}`
                       }
                       alt="product"
                       width={300}
@@ -108,8 +104,12 @@ function Categories() {
             </div>
             <div>
               {categories.map((category, key) => (
-                <Link href={`/categories?category=${category.id}`} key={key} className="mt-4">
-                {category.name}
+                <Link
+                  href={`/categories?category=${category.id}`}
+                  key={key}
+                  className="mt-4"
+                >
+                  {category.name}
                 </Link>
               ))}
             </div>

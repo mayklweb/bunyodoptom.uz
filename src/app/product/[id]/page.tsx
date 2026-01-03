@@ -73,8 +73,8 @@ export default observer(function ProductPage({
         <div className="mt-[80px] lg:mt-[100px]">
           <div className="flex flex-col lg:flex-row gap-5">
             <div className="w-full lg:w-1/2 grid grid-cols-1 gap-2">
-              {item.images.map((image: any) => (
-                <div className="w-full h-full rounded-md overflow-hidden">
+              {item.images.map((image: any, i) => (
+                <div key={i} className="w-full h-full rounded-md overflow-hidden">
                   <Image
                     key={image.id}
                     src={`https://api.bunyodoptom.uz${image.url}`}

@@ -62,7 +62,7 @@ function Products() {
                       product.images?.[1]?.url
                         ? `https://api.bunyodoptom.uz${product.images[1].url}`
                         : `https://api.bunyodoptom.uz${product.images[0].url}`
-                    } // agar mainImage undefined bo‘lsa placeholder ishlaydi
+                    }
                     alt={product.name}
                     width={300}
                     height={200}
