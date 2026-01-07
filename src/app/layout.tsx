@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   description:
     "Bunyod Optom - Eng yaxshi narxlar, keng assortiment, tez yetkazib berish",
   icons: { icon: "/favicon.svg" },
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

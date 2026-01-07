@@ -18,11 +18,10 @@ const Cart = observer(() => {
                 key={item.id}
                 className="flex gap-3 border-t border-[#E0E0E0] border-solid py-3"
               >
-                <div className="rounded-2xl overflow-hidden w-[160px] h-[100px]">
+                <div className="rounded-xl overflow-hidden w-[160px] h-[110px]">
                   <Image
-                    src="/cookie.webp"
-                    alt="product"
-                    // src={item.image || "/placeholder.webp"} alt={item.name}
+                    src={`https://api.bunyodoptom.uz${item.images[0].url}`}
+                    alt={item.name}
                     width={180}
                     height={120}
                     priority
