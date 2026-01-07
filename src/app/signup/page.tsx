@@ -21,7 +21,7 @@ function SignUp() {
       phone,
     });
     if(res && typeof res === 'object' && 'token' in res){
-      navigate.push('/');
+      navigate.push('/profile');
       console.log("Signup successful, token:", res.token);
     }
   };

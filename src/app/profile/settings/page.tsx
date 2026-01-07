@@ -56,7 +56,8 @@ function Settings() {
               <div className="border-[1px] border-solid border-[#E4E4E4] rounded-lg mt-2 py-2 px-3">
                 <input
                   placeholder="+998 (90) 123-45-67"
-                  defaultValue={"+998" + Number(user?.phone)}
+                  // defaultValue={}
+                  value={`+998 ${user?.phone}`}
                   id="phone"
                   type="text"
                   className="outline-none"

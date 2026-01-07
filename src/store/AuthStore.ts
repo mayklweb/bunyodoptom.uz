@@ -45,7 +45,7 @@ class AuthStore {
   async login(credentials: LogInType) {
     this.loading = true;
     try {
-      const res = await fetch("http://localhost:4000/api/v1/users/login", {
+      const res = await fetch("https://api.bunyodoptom.uz/api/v1/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
@@ -68,7 +68,7 @@ class AuthStore {
   async signup(userData: SignUpType) {
     this.loading = true;
     try {
-      const res = await fetch("http://localhost:4000/api/v1/users/signup", {
+      const res = await fetch("https://api.bunyodoptom.uz/api/v1/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
