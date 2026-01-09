@@ -141,6 +141,8 @@ const Checkout = observer(() => {
     } finally {
       setLoading(false);
     }
+
+    
   };
 
   return (
