@@ -4,21 +4,54 @@ import { cartStore } from "@/store/CartStore";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+
+interface CheckoutFormData {
+  address_id: string;
+  comment: string;
+  paymentMethod: "cash" | "click" | "payme";
+}
+
+const getAddresses = async () => {
+  const res = await fetch(`https://api.bunyodoptom.uz/api/v1/addresses`);
+  const data = await res.json();
+  return data?.data || [];
+};
 
 const Checkout = observer(() => {
   const { user } = authStore;
   const { cart } = cartStore;
-  const [paymentMethod, setPaymentMethod] = useState("cash");
-
-  const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CheckoutFormData>({
+    defaultValues: {
+      address_id: "",
+      comment: "",
+      paymentMethod: "cash",
+    },
+  });
 
   const totalAmount = cart.reduce(
     (sum, item) => sum + item.price * item.qty,
     0
   );
 
-  async function handleCheckout() {
+  // React Query — load addresses
+  const {
+    data: addresses = [],
+    isLoading: addressLoading,
+    isError: addressError,
+  } = useQuery({
+    queryKey: ["addresses"],
+    queryFn: () => getAddresses(),
+  });
+
+  const onSubmit = async (data: CheckoutFormData) => {
     if (!user) {
       console.log("User is not authenticated");
       return;
@@ -27,8 +60,8 @@ const Checkout = observer(() => {
     setLoading(true);
 
     try {
-      if (paymentMethod === "click" || paymentMethod === "payme") {
-        // Online payment flow
+      // Online Payments (click / payme)
+      if (data.paymentMethod === "click" || data.paymentMethod === "payme") {
         const res = await fetch(
           "https://api.bunyodoptom.uz/api/v1/click/create",
           {
@@ -38,132 +71,147 @@ const Checkout = observer(() => {
             },
             body: JSON.stringify({
               user_id: user.id,
-              total_amount: totalAmount,
-              address_id: null,
-              notes: comment,
-              payment_method: paymentMethod,
+              total_amount: Number(totalAmount),
+              address_id: data.address_id,
+              notes: data.comment,
+              payment_method: data.paymentMethod,
               idempotency_key: crypto.randomUUID(),
             }),
           }
         );
 
-        const data = await res.json();
+        const responseData = await res.json();
 
         if (!res.ok) {
-          console.log("Server error:", data);
+          console.log("Server error:", responseData);
+          alert("Xatolik yuz berdi. Qaytadan urinib ko'ring.");
           return;
         }
 
-        // Redirect to payment page
-        window.location.href = data.paymentUrl;
-      } else {
-        // Cash or card payment - create order directly
-        const res = await fetch(
-          "https://api.bunyodoptom.uz/api/v1/orders/create",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              user_id: user.id,
-              total_amount: totalAmount,
-              address_id: null,
-              notes: comment,
-              payment_method: paymentMethod,
-              status: "pending",
-            }),
-          }
-        );
+        window.location.href = responseData.paymentUrl;
+        return;
+      }
 
-        const data = await res.json();
+      // Cash Payment — Create Order Directly
+      if (!data.address_id) {
+        alert("Iltimos, yetkazib berish manzilini tanlang!");
+        return;
+      }
+      const token = localStorage.getItem("token"); // JSON.stringify kerak emas
 
-        if (res.ok) {
-          alert("Buyurtma muvaffaqiyatli yaratildi!");
-          // Redirect to success page or clear cart
-        } else {
-          console.log("Order creation error:", data);
+      const res = await fetch(
+        "https://api.bunyodoptom.uz/api/v1/orders/checkout",
+
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+
+          body: JSON.stringify({
+            user_id: 1,
+            address_id: 1,
+            idempotency_key: "",
+            notes: "string",
+            payment_method: data.paymentMethod,
+            items: cart.map((item) => ({
+              product_id: Number(item.id),
+              qty: Number(item.qty),
+            })),
+          }),
         }
+      );
+
+      const responseData = await res.json();
+
+      if (res.ok) {
+        alert("Buyurtma muvaffaqiyatli yaratildi!");
+        console.log(res);
+
+        // TODO: clear cart / redirect success
+      } else {
+        console.log("Order creation error:", responseData);
+        alert("Buyurtma yaratishda xatolik yuz berdi");
       }
     } catch (error) {
       console.log("Checkout error:", error);
-      alert("Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring.");
+      alert("Xatolik yuz berdi. Qaytadan urinib ko'ring.");
     } finally {
       setLoading(false);
     }
-  }
-
-  // async function handleCheckout() {
-  //   if (!user) {
-  //     console.log("User is not authenticated");
-  //     return;
-  //   }
-
-  //   try {
-  //     const res = await fetch(
-  //       "https://api.bunyodoptom.uz/api/v1/click/create",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           user_id: user.id, // user ID
-  //           total_amount: 1000, // umumiy summa
-  //           address_id: null, // bo‘lsa
-  //           notes: "", // optional
-  //           idempotency_key: crypto.randomUUID(), // optional
-  //         }),
-  //       }
-  //     );
-
-  //     const data = await res.json();
-
-  //     if (!res.ok) {
-  //       console.log("Server error:", data);
-  //       return;
-  //     }
-
-  //     // Payment URL → Userni Click tolovga yo‘naltiramiz
-  //     window.location.href = data.paymentUrl;
-  //   } catch (error) {
-  //     console.log("Checkout error:", error);
-  //   }
-  // }
+  };
 
   return (
     <section>
       <div className="container">
-        <div className="mt-[70px]">
+        <div className="my-[80px]">
           <h1 className="text-xl lg:text-4xl font-semibold mb-2">SAVAT</h1>
-          <div>
-            {/* Delivery Info */}
-            <div className="bg-[#2e3192]/10 rounded-lg p-4 mb-6">
-              <h2 className="font-semibold text-black mb-2">Oluvchi:</h2>
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* USER INFO */}
+            <div className="bg-blue-50 rounded-lg p-4 mb-6">
+              <h2 className="font-semibold text-gray-800 mb-2">Oluvchi:</h2>
               <p className="text-gray-700">{user?.name}</p>
               <p className="text-gray-700">+998 {user?.phone}</p>
-              <p className="text-gray-600 mt-2">Xorazm, Xonqa</p>
-              <p className="text-gray-600">Ertaga yetkazib beriladi</p>
             </div>
 
-            {/* Cart Items */}
+            {/* ADDRESS SELECT */}
+            <div className="mb-6">
+              <h2 className="font-semibold text-gray-800 mb-3">
+                Yetkazib berish manzili:
+              </h2>
+
+              {addressLoading && <p>Manzillar yuklanmoqda...</p>}
+              {addressError && (
+                <p className="text-red-500">Manzil yuklashda xatolik</p>
+              )}
+
+              {!addressLoading && !addressError && (
+                <select
+                  {...register("address_id", {
+                    required: "Manzilni tanlang",
+                  })}
+                  className={`w-full px-4 py-3 border rounded-lg ${
+                    errors.address_id ? "border-red-500" : "border-gray-300"
+                  }`}
+                >
+                  <option value="">Manzilni tanlang</option>
+
+                  {addresses.map((a: any) => (
+                    <option key={a.id} value={a.id}>
+                      {a.city}, {a.street}
+                    </option>
+                  ))}
+                </select>
+              )}
+
+              {errors.address_id && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.address_id.message}
+                </p>
+              )}
+            </div>
+
+            {/* CART ITEMS */}
             <div className="mb-6">
               <h2 className="font-semibold text-black mb-3">Mahsulotlar:</h2>
-              <div className="">
-                {cart.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex justify-between items-center py-2 border-b border-gray-300"
-                  >
-                    <span className="text-gray-700">
-                      {item.name} x {item.qty}
-                    </span>
-                    <span className="font-semibold text-gray-800">
-                      {(item.price * item.qty).toLocaleString()} so'm
-                    </span>
-                  </div>
-                ))}
-              </div>
+
+              {cart.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex justify-between items-center py-2 border-b border-gray-300"
+                >
+                  <span className="text-gray-700">
+                    {item.name} x {item.qty}
+                  </span>
+                  <span className="font-semibold text-gray-800">
+                    {(item.price * item.qty).toLocaleString()} so'm
+                  </span>
+                </div>
+              ))}
+
               <div className="flex justify-between items-center pt-3 mt-3 border-t-2 border-gray-500">
                 <span className="text-lg font-bold text-gray-800">Jami:</span>
                 <span className="text-lg font-bold text-[#2e3192]">
@@ -172,59 +220,55 @@ const Checkout = observer(() => {
               </div>
             </div>
 
-            {/* Comment Section */}
+            {/* COMMENT */}
             <div className="mb-6">
               <label className="block font-semibold text-black mb-2">
                 Izoh (ixtiyoriy):
               </label>
               <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Buyurtmangiz haqida qo'shimcha ma'lumot yozing..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#2e3192] resize-none"
+                {...register("comment")}
+                placeholder="Qo'shimcha ma'lumot..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none resize-none"
                 rows={3}
               />
             </div>
 
-            {/* Payment Methods */}
+            {/* PAYMENT METHODS */}
             <div className="mb-6">
-              <h2 className="font-semibold text-black mb-3">
-                To'lov usuli:
-              </h2>
+              <h2 className="font-semibold text-black mb-3">To'lov usuli:</h2>
+
               <div className="space-y-3">
-                {/* Cash Payment */}
-                <label className="flex items-center p-4 rounded-xl cursor-pointer bg-[#2e3192]/10 transition">
+                {/* CASH */}
+                <label className="flex items-center p-4 rounded-xl cursor-pointer bg-[#2e3192]/10">
                   <input
                     type="radio"
-                    name="payment"
+                    {...register("paymentMethod", {
+                      required: "To'lov usulini tanlang",
+                    })}
                     value="cash"
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="w-5 h-5 text-[#2e3192]"
+                    className="w-5 h-5"
                   />
                   <div className="ml-3">
                     <span className="font-semibold text-gray-800">
                       Naqd pul
                     </span>
                     <p className="text-sm text-gray-600">
-                      Yetkazib berilganda to'lang
+                      Yetkazib berilganda to'lash
                     </p>
                   </div>
                 </label>
 
-                {/* CLICK Payment */}
-                <label className="flex items-center p-4 rounded-lg cursor-pointer bg-[#2e3192]/10 transition">
+                {/* CLICK */}
+                <label className="flex items-center p-4 rounded-xl bg-[#2e3192]/10 opacity-50">
                   <input
                     type="radio"
-                    name="payment"
+                    {...register("paymentMethod")}
                     value="click"
                     disabled
-                    checked={paymentMethod === "click"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="w-5 h-5 text-[#2e3192]"
                   />
-                  <div className="ml-3 flex items-center">
+                  <div className="ml-3">
                     <Image
-                      src={"/click.svg"}
+                      src="/click.svg"
                       alt="click"
                       width={100}
                       height={25}
@@ -232,64 +276,41 @@ const Checkout = observer(() => {
                   </div>
                 </label>
 
-                {/* PAYME Payment */}
-                <label className="flex items-center p-4 rounded-xl cursor-pointer bg-[#2e3192]/10 transition">
+                {/* PAYME */}
+                <label className="flex items-center p-4 rounded-xl bg-[#2e3192]/10 opacity-50">
                   <input
                     type="radio"
-                    name="payment"
+                    {...register("paymentMethod")}
                     value="payme"
-                    disabled  
-                    checked={paymentMethod === "payme"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="w-5 h-5 text-[#2e3192]"
+                    disabled
                   />
-                  <div className="ml-3 flex items-center">
+                  <div className="ml-3">
                     <Image
-                      src={"/payme.svg"}
-                      alt="click"
+                      src="/payme.svg"
+                      alt="payme"
                       width={100}
                       height={32}
                     />
                   </div>
                 </label>
               </div>
+
+              {errors.paymentMethod && (
+                <p className="text-red-500 text-sm mt-2">
+                  {errors.paymentMethod.message}
+                </p>
+              )}
             </div>
 
-            <div>
-              <div>Ertaga, 27-noyabr</div>
-              {cart.map((item) => (
-                <div key={item.id}>
-                  <div>
-                    <Image
-                      src={`https://api.bunyodoptom.uz${item.images[0].url}`}
-                      alt={item.name}
-                      width={180}
-                      height={120}
-                      priority
-                    />
-                  </div>
-                  <div>
-                    <p>
-                      {item.name} x {item.qty}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div>
-              <button>NAQT</button>
-              <button>CLICK</button>
-              <button>PAYME</button>
-            </div>
-          </div>
-
-          <button
-            className="bg-[#2e3192]"
-            onClick={handleCheckout}
-            disabled={loading}
-          >
-            CLICK
-          </button>
+            {/* SUBMIT */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#2e3192] text-white py-4 rounded-xl disabled:bg-gray-400"
+            >
+              {loading ? "Kutilmoqda..." : "Buyurtma berish"}
+            </button>
+          </form>
         </div>
       </div>
     </section>

@@ -16,7 +16,7 @@ export const logIn = async () => {
 };
 
 export const getAddress = async () => {
-  const { data } = await Axios.get("/address");
+  const { data } = await Axios.get("/addresses");
   return data;
 };
 
@@ -39,3 +39,4 @@ export const getUser = async () => {
   const { data } = await Axios.get("/users/me");
   return data;
 };
+
