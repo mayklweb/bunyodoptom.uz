@@ -1,6 +1,7 @@
 "use client";
 import { authStore } from "@/store/AuthStore";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 interface OrderItem {
   id: number;
@@ -20,7 +21,12 @@ interface Order {
 
 const Orders = () => {
   const { user } = authStore;
-  const token = localStorage.getItem("token"); // token saqlanadi
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const t = localStorage.getItem("token");
+    setToken(t);
+  }, []);
 
   const fetchOrders = async () => {
     if (!user) return [];
