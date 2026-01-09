@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { authStore } from "@/store/AuthStore";
 import { useQuery } from "@tanstack/react-query";
 
