@@ -11,7 +11,7 @@ const Cart = observer(() => {
     <section>
       <div className="container">
         <div className="mt-[70px]">
-          <h1 className="text-xl lg:text-4xl font-semibold mb-2">САВАТ</h1>
+          <h1 className="text-xl lg:text-4xl font-semibold mb-2">SAVAT</h1>
           <div className="grid grid-cols-1 gap-4">
             {cart.map((item) => (
               <div
