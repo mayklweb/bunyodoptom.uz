@@ -21,7 +21,7 @@ const getAddresses = async () => {
 
 const Checkout = observer(() => {
   const { user } = authStore;
-  const { cart } = cartStore;
+  const { cart, clearCart } = cartStore;
   const [loading, setLoading] = useState(false);
 
   const {
@@ -129,6 +129,8 @@ const Checkout = observer(() => {
       if (res.ok) {
         alert("Buyurtma muvaffaqiyatli yaratildi!");
         console.log(res);
+        clearCart();
+        window.location.href = "/profile/orders";
 
         // TODO: clear cart / redirect success
       } else {
@@ -141,8 +143,6 @@ const Checkout = observer(() => {
     } finally {
       setLoading(false);
     }
-
-    
   };
 
   return (

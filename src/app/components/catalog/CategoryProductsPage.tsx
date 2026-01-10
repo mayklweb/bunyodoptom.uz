@@ -3,8 +3,8 @@
 import { getCategories, getProducts } from "@/api/apiServices";
 import { CategoryType, ProductType } from "@/types";
 import { useEffect, useState } from "react";
-import ProductGrid from "@/app/components/catalog/ProductGrid";
-import FilterDrawer from "@/app/components/catalog/FilterDrawer";
+import ProductGrid from "./ProductGrid";
+import FilterDrawer from "./FilterDrawer";
 
 function normalizeProducts(products: ProductType[]): ProductType[] {
   return products.filter(
